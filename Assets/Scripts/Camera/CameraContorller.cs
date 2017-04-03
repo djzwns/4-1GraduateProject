@@ -34,4 +34,9 @@ public class CameraContorller : MonoBehaviour
         float size = m_Camera.orthographicSize + _deltaPinch * m_ZoomSpeed;
         m_Camera.orthographicSize = Mathf.Clamp(size, m_MinCamSize, m_MaxCamSize);
     }
+
+    public void Move(Vector2 _vec)
+    {
+        this.transform.Translate(_vec * m_MoveSpeed);
+    }
 }

@@ -49,9 +49,15 @@ public class TouchEvent : MonoBehaviour
         return true;
     }
 
-    void TouchDrag()
+    Vector2 TouchDrag()
     {
         Touch touch = Input.GetTouch(0);
+
+        Vector2 touchPrevPosition = touch.position - touch.deltaPosition;
+
+        Vector2 deltaPosition = touchPrevPosition - touch.position;
+
+        return deltaPosition;
     }
 
     // 핀치 동작
@@ -98,6 +104,8 @@ public class TouchEvent : MonoBehaviour
                 break;
 
             case TouchPhase.Moved:
+                if(m_Touched == null)
+                    m_Camera.GetComponent<CameraContorller>().Move(TouchDrag());
                 break;
 
             default:
