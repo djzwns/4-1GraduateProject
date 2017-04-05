@@ -1,13 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class TouchEvent : MonoBehaviour
+public class TouchEvent : Singleton<TouchEvent>
 {
     Camera m_Camera;
+    CameraController m_CamController;
     GameObject m_Touched;   // 터치 한 오브젝트
 
     float m_DeltaMagDiff; // 핀치 동작 양
+
+    int m_TouchCount;
 
 
     #region MonoBehaviourFunctions
@@ -15,41 +19,56 @@ public class TouchEvent : MonoBehaviour
     void Awake()
     {
         m_Camera = Camera.main;
+        m_CamController = m_Camera.GetComponent<CameraController>();
     }
 
 
     void Update()
     {
-        int touchCount = Input.touchCount;
+        // UI 터치
+        if (EventSystem.current.IsPointerOverGameObject(0))
+        {
+            return;
+        }
 
-        // 1포인트에만 반응
-        if(touchCount == 1)
-            TouchState();
+
+        // 그 외
+        m_TouchCount = Input.touchCount;
+
+        TouchState();
 
         if (PinchZoom())
-            m_Camera.GetComponent<CameraContorller>().Zoom(m_DeltaMagDiff);
+            m_CamController.Zoom(m_DeltaMagDiff);
     }
 
     #endregion //MonoBehaviourFunctions
 
     #region Functions
-
-    bool IsTouchObject(Vector2 _touchPos)
+    public void SetTouched(GameObject _go)
     {
+        if (_go == null) return;
+
+        m_Touched = _go;
+    }
+
+    bool IsObjectTouched(Vector2 _touchPos)
+    {
+        // 이미 눌린 오브젝트가 있으면 별다른 동작 없이 반환
+        if (m_Touched != null) return true;
+
         Ray ray = m_Camera.ScreenPointToRay(_touchPos);
 
         RaycastHit2D hit = Physics2D.GetRayIntersection(ray, Mathf.Infinity);
-
+        
         if (hit.collider == null) return false;
         if (hit.collider.tag != "Object") return false;
-        
 
         m_Touched = hit.collider.gameObject;
         
         return true;
     }
 
-    Vector2 TouchDrag()
+    Vector2 TouchDeltaPosition()
     {
         Touch touch = Input.GetTouch(0);
 
@@ -59,10 +78,12 @@ public class TouchEvent : MonoBehaviour
 
         return deltaPosition;
     }
-
+    
     // 핀치 동작
     bool PinchZoom()
     {
+        if (m_TouchCount != 2) return false;
+
         Touch firstTouch = Input.GetTouch(0);
         Touch secondTouch = Input.GetTouch(1);
 
@@ -83,29 +104,51 @@ public class TouchEvent : MonoBehaviour
         return false;
     }
 
+    // 터치 시작
+    void TouchBegan(Vector2 _touchPos)
+    {
+        if (!IsObjectTouched(_touchPos)) return;
+
+        m_Touched.GetComponent<Objects>().CanMove(true);
+    }
+
+    // 터치 종료
+    void TouchEnded()
+    {
+        if (m_Touched == null) return;
+
+        m_Touched.GetComponent<Objects>().CanMove(false);
+        m_Touched = null;
+    }
+
+    // 드래그
+    void TouchMoved()
+    {
+        if (m_Touched != null) return;
+
+        m_CamController.Move(TouchDeltaPosition());
+    }
 
     // 터치 상태 별 동작
     void TouchState()
     {
+        if (m_TouchCount != 1) return;
+
         Touch touch = Input.GetTouch(0);
         Vector2 touchPos = touch.position;
 
         switch (touch.phase)
         {
             case TouchPhase.Began:
-                if (IsTouchObject(touchPos))
-                    m_Touched.GetComponent<Objects>().CanMove(true);
-
+                TouchBegan(touchPos);
                 break;
 
             case TouchPhase.Ended:
-                m_Touched.GetComponent<Objects>().CanMove(false);
-                m_Touched = null;
+                TouchEnded();
                 break;
 
             case TouchPhase.Moved:
-                if(m_Touched == null)
-                    m_Camera.GetComponent<CameraContorller>().Move(TouchDrag());
+                TouchMoved();
                 break;
 
             default:

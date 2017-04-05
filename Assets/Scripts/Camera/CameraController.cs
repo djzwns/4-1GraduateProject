@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraContorller : MonoBehaviour
+public class CameraController : MonoBehaviour
 {
 
     #region Variables
