@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Objects : MonoBehaviour {
-
-    bool m_IsTouched    = false;
+    
     bool m_CanMove      = false;
-    bool m_UI_IsOn;
 
 
 	// Use this for initialization
@@ -26,11 +24,15 @@ public class Objects : MonoBehaviour {
         Vector2 touchPos = Input.GetTouch(0).position;
         Vector2 worldPos = Camera.main.ScreenToWorldPoint(touchPos);
 
-        this.transform.position = worldPos;
+        transform.position = worldPos;
     }
 
     public void CanMove(bool _move)
     {
         m_CanMove = _move;
+    }
+
+    public void OpenSettingUI()
+    {
     }
 }

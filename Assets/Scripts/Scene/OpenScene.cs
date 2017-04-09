@@ -10,7 +10,10 @@ public class OpenScene : MonoBehaviour {
 
     public void ButtonOpenLobby()
     {
-        SceneManager.LoadScene("Lobby");
+        GUIAnimSystem.Instance.EnableAllButton(false);
+        GUIAnimSystem.Instance.LoadLevel("Lobby", 1.5f);
+
+        gameObject.SendMessage("HideAllGUIs");
     }
 
     public void ButtonOpenGame()

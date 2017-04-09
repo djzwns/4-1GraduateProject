@@ -3,23 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DragUI : Singleton<DragUI>, IBeginDragHandler, IDragHandler, IEndDragHandler {
-    GameObject go;
+public class DragUI : Singleton<DragUI>, /*IBeginDragHandler,*/ IDragHandler, IEndDragHandler {
+    public string m_ObjectName;
 
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        go = ObjectCreator.Instance.CreateObject("brick");
-        go.GetComponent<Objects>().CanMove(true);
+    private GameObject m_Go;
+    private bool m_Drag;
 
-        TouchEvent.Instance.SetTouched(go);
-    }
+    //public void OnBeginDrag(PointerEventData eventData)
+    //{
+    //    if (Input.touchCount != 1) return;
+
+    //}
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (m_Drag) return;
+        if (eventData.currentInputModule.IsPointerOverGameObject(0)) return;
+
+        // UI 밖으로 터치 포인트가 나가면 오브젝트를 생성
+        m_Go = ObjectCreator.Instance.CreateObject(m_ObjectName);
+        m_Go.GetComponent<Objects>().CanMove(true);
+
+        TouchEvent.Instance.SetTouched(m_Go);
+        m_Drag = true;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        go.GetComponent<Objects>().CanMove(false);
+        m_Go.GetComponent<Objects>().CanMove(false);
+        m_Drag = false;
     }
 }
