@@ -12,7 +12,7 @@ public class TouchEvent : Singleton<TouchEvent>
     float m_DeltaMagDiff; // 핀치 동작 양
 
     int m_TouchCount;
-
+    bool m_IsMoved = false;
 
     #region MonoBehaviourFunctions
 
@@ -116,9 +116,11 @@ public class TouchEvent : Singleton<TouchEvent>
     void TouchEnded()
     {
         if (m_Touched == null) return;
+        if (m_IsMoved) ObjectControlUI.Instance.SetObject(m_Touched);
 
         m_Touched.GetComponent<Objects>().CanMove(false);
         m_Touched = null;
+        m_IsMoved = false;
     }
 
     // 드래그
@@ -126,6 +128,7 @@ public class TouchEvent : Singleton<TouchEvent>
     {
         if (m_Touched != null) return;
 
+        m_IsMoved = true;
         m_CamController.Move(TouchDeltaPosition());
     }
 
