@@ -31,6 +31,10 @@ public class RB_Game : MonoBehaviour {
         StartCoroutine(DisableButtonForSeconds(m_OpenButton.gameObject, 1.0f));
     }
 
+    public void ToggleObjectControlUI()
+    {
+    }
+
     private IEnumerator DisableButtonForSeconds(GameObject _gObj, float _disableTime)
     {
         GUIAnimSystem.Instance.EnableButton(_gObj.transform, false);

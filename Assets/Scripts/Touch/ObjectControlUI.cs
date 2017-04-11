@@ -33,6 +33,11 @@ public class ObjectControlUI : Singleton<ObjectControlUI> {
 
     public void SetObject(GameObject _object)
     {
+        if (m_Object != null)
+        {
+            m_UI.gameObject.SetActive(false);
+            m_Object.GetComponent<Objects>().SetSlider();
+        }
         m_Object = _object;
 
         OnControlUI();
@@ -49,7 +54,7 @@ public class ObjectControlUI : Singleton<ObjectControlUI> {
         {
             m_IsOn = true;
             m_UI.gameObject.SetActive(true);
-            // slider 넣어주고 다른 오브젝트 누를 때 이전 오브젝트의 slider 를 없에줘야함.
+
             // slider 사이즈가 너무 작음, UI 켜졌을 때 카메라 고정 시키기
             m_Object.GetComponent<Objects>().SetSlider(m_PowerBar, m_RotateBar);
         }

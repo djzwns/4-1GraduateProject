@@ -9,7 +9,6 @@ public class Objects : MonoBehaviour {
 
     [Range(0f, 1f)]
     float m_Power = -1;
-    float m_Rotation;
 
     Slider m_PowerBar;
     Slider m_RotateBar;
@@ -46,7 +45,8 @@ public class Objects : MonoBehaviour {
     {
         if (m_RotateBar == null) return;
 
-        transform.rotation = Quaternion.AngleAxis((m_RotateBar.value - 0.5f) * -180f, Vector3.forward);
+        transform.rotation = Quaternion.AngleAxis(-m_RotateBar.value, Vector3.forward);
+        Debug.Log(string.Format("RotateBar : {0} \tTransform : {1}", m_RotateBar.value, transform.localEulerAngles.z));
     }
 
     #region UI_Control
@@ -59,18 +59,21 @@ public class Objects : MonoBehaviour {
 
     private void SetPowerBar(Slider _power = null)
     {
+        m_PowerBar = _power;
         if (_power == null) return;
         
-        m_PowerBar = _power;
         m_PowerBar.value = m_Power;
     }
 
     private void SetRotateBar(Slider _rotate = null)
     {
-        if (_rotate == null) return;
-
         m_RotateBar = _rotate;
-        m_RotateBar.value = transform.rotation.z;
+        if (_rotate == null) return;
+        float angle_z = transform.localEulerAngles.z;
+
+        if (angle_z >= 270f) angle_z -= 360f;
+
+        m_RotateBar.value = -angle_z;
     }
 
     #endregion // UI_Control

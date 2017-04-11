@@ -26,10 +26,7 @@ public class TouchEvent : Singleton<TouchEvent>
     void Update()
     {
         // UI 터치
-        if (EventSystem.current.IsPointerOverGameObject(0))
-        {
-            return;
-        }
+        if (EventSystem.current.IsPointerOverGameObject(0)) return;
 
 
         // 그 외
@@ -54,14 +51,20 @@ public class TouchEvent : Singleton<TouchEvent>
     bool IsObjectTouched(Vector2 _touchPos)
     {
         // 이미 눌린 오브젝트가 있으면 별다른 동작 없이 반환
-        if (m_Touched != null) return true;
+        //if (m_Touched != null) return true;
 
         Ray ray = m_Camera.ScreenPointToRay(_touchPos);
 
         RaycastHit2D hit = Physics2D.GetRayIntersection(ray, Mathf.Infinity);
-        
-        if (hit.collider == null) return false;
-        if (hit.collider.tag != "Object") return false;
+
+        if (hit.collider == null || hit.collider.tag != "Object")
+        {
+            if(m_Touched != null)
+                m_Touched.GetComponent<Objects>().SetSlider();
+            m_Touched = null;
+            return false;
+        }
+
 
         m_Touched = hit.collider.gameObject;
         
@@ -115,8 +118,12 @@ public class TouchEvent : Singleton<TouchEvent>
     // 터치 종료
     void TouchEnded()
     {
-        if (m_Touched == null) return;
-        if (m_IsMoved) ObjectControlUI.Instance.SetObject(m_Touched);
+        if (m_Touched == null)
+        {
+            ObjectControlUI.Instance.SetObject(m_Touched);
+            return;
+        }
+        if (!m_IsMoved) ObjectControlUI.Instance.SetObject(m_Touched);
 
         m_Touched.GetComponent<Objects>().CanMove(false);
         m_Touched = null;
@@ -126,9 +133,9 @@ public class TouchEvent : Singleton<TouchEvent>
     // 드래그
     void TouchMoved()
     {
+        m_IsMoved = true;
         if (m_Touched != null) return;
 
-        m_IsMoved = true;
         m_CamController.Move(TouchDeltaPosition());
     }
 
