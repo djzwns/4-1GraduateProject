@@ -13,6 +13,11 @@ public class GUIAnimSystem : Singleton<GUIAnimSystem> {
         StartCoroutine(DelayLoadLevel(_LevelName, _delay));
     }
 
+    public Canvas GetCanvas(Transform _trans)
+    {
+        return _trans.root.GetComponent<Canvas>();
+    }
+
     IEnumerator DelayLoadLevel(string _LevelName, float _delay)
     {
         yield return new WaitForSeconds(_delay);
@@ -34,7 +39,10 @@ public class GUIAnimSystem : Singleton<GUIAnimSystem> {
         }
     }
 
-    // UI 에 지정된 모든 애니메이션을 실행시킴
+    /// <summary>
+    /// UI 에 지정된 모든 애니메이션을 실행시킴
+    /// </summary>
+    /// <param name="_trans"></param>
     public void MoveIn(Transform _trans)
     {
         GUIAnimator gui = _trans.GetComponent<GUIAnimator>();
@@ -54,12 +62,14 @@ public class GUIAnimSystem : Singleton<GUIAnimSystem> {
         // 스케일
         if (gui.m_ScaleIn.Enable)
         {
-        }        
-    }
+            StartCoroutine(ScaleIn(gui));
+        }
 
-    public Canvas GetCanvas(Transform _trans)
-    {
-        return _trans.root.GetComponent<Canvas>();
+        // 스케일 루프
+        if (gui.m_ScaleLoop.Enable)
+        {
+            StartCoroutine(ScaleLoop(gui));
+        }
     }
 
     public void MoveOut(Transform _trans)
@@ -80,6 +90,7 @@ public class GUIAnimSystem : Singleton<GUIAnimSystem> {
         // 스케일
         if (gui.m_ScaleOut.Enable)
         {
+            StartCoroutine(ScaleOut(gui));
         }
     }
 
@@ -116,26 +127,16 @@ public class GUIAnimSystem : Singleton<GUIAnimSystem> {
     {
         // 지연시간 지난 후 실행
         yield return new WaitForSeconds(_gui.m_MoveIn.Delay);
-
-        _gui.m_MoveIn.Animating = true;
-
+        
         float t = 0f;
-        while (!_gui.m_MoveIn.Done)
+        while (t <= 1)
         {
             t += Time.deltaTime * m_GUISpeed / _gui.m_MoveIn.Time;
 
-            _gui.transform.GetComponent<RectTransform>().anchoredPosition = Vector3.Lerp(_gui.transform.localPosition, _gui.m_MoveIn.EndPos, t);
+            _gui.transform.position = Vector3.Lerp(_gui.m_MoveIn.BeginPos, _gui.m_MoveIn.EndPos, t);
 
-            if (t > 1)
-            {
-                _gui.m_MoveOut.Done = false;
-                _gui.m_MoveIn.Done = true;
-            }
-            
             yield return new WaitForFixedUpdate();
         }
-
-        _gui.m_MoveIn.Animating = false;
     }
 
     IEnumerator MoveOut(GUIAnimator _gui)
@@ -143,24 +144,74 @@ public class GUIAnimSystem : Singleton<GUIAnimSystem> {
         // 지연시간 지난 후 실행
         yield return new WaitForSeconds(_gui.m_MoveOut.Delay);
 
-        _gui.m_MoveOut.Animating = true;
-
         float t = 0f;
-        while (!_gui.m_MoveOut.Done)
+        while (t <= 1)
         {
             t += Time.deltaTime * m_GUISpeed / _gui.m_MoveOut.Time;
 
-            _gui.transform.GetComponent<RectTransform>().anchoredPosition = Vector3.Lerp(_gui.transform.localPosition, _gui.m_MoveOut.EndPos, t);
+            _gui.transform.position = Vector3.Lerp(_gui.m_MoveOut.BeginPos, _gui.m_MoveOut.EndPos, t);
+                        
+            yield return new WaitForFixedUpdate();
+        }
+    }
 
-            if (t > 1)
-            {
-                _gui.m_MoveIn.Done = false;
-                _gui.m_MoveOut.Done = true;
-            }
+    IEnumerator ScaleIn(GUIAnimator _gui)
+    {
+        yield return new WaitForSeconds(_gui.m_ScaleIn.Delay);
+
+        float t = 0f;
+        while (t <= 1)
+        {
+            t += Time.deltaTime * m_GUISpeed / _gui.m_ScaleIn.Time;
+
+            _gui.transform.localScale = Vector3.Lerp(_gui.m_ScaleOriginal, _gui.m_ScaleIn.Size, t);
             
             yield return new WaitForFixedUpdate();
         }
+    }
 
-        _gui.m_MoveOut.Animating = false;
+
+    IEnumerator ScaleOut(GUIAnimator _gui)
+    {
+        yield return new WaitForSeconds(_gui.m_ScaleOut.Delay);
+
+        float t = 0f;
+        while (t <= 1)
+        {
+            t += Time.deltaTime * m_GUISpeed / _gui.m_ScaleOut.Time;
+
+            _gui.transform.localScale = Vector3.Lerp(_gui.m_ScaleOut.Size, _gui.m_ScaleOriginal, t);
+            
+            yield return new WaitForFixedUpdate();
+        }
+    }
+
+    IEnumerator ScaleLoop(GUIAnimator _gui)
+    {
+        yield return new WaitForSeconds(_gui.m_ScaleLoop.Delay);
+
+        float t;
+        while (true)
+        {
+            t = 0f;
+            while (t <= 1)
+            {
+                t += Time.deltaTime * m_GUISpeed / _gui.m_ScaleLoop.Time;
+
+                _gui.transform.localScale = Vector3.Lerp(_gui.m_ScaleLoop.Min, _gui.m_ScaleLoop.Max, t);
+
+                yield return new WaitForFixedUpdate();
+            }
+
+            t = 0f;
+            while (t <= 1)
+            {
+                t += Time.deltaTime * m_GUISpeed / _gui.m_ScaleLoop.Time;
+
+                _gui.transform.localScale = Vector3.Lerp(_gui.m_ScaleLoop.Max, _gui.m_ScaleLoop.Min, t);
+
+                yield return new WaitForFixedUpdate();
+            }
+        }
     }
 }

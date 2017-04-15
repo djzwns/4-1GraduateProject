@@ -6,79 +6,107 @@ public class GUIAnimator : MonoBehaviour {
     
     #region MonoBehaviour Functions
 
-    void Awake()
-    {        
+    void Start()
+    {
+        m_bounds = RectTransformUtility.CalculateRelativeRectTransformBounds(transform);
+
         MoveInit();
+        ScaleInit();
     }
 
-    void MoveInit()
+    /// <summary>
+    /// 찾은 오브젝트의 위치를 스크린좌표로 반환
+    /// </summary>
+    private Vector3 FindObjectPosition(string _name)
+    {
+        Vector3 findObjectPosition = GameObject.Find(_name).transform.position;
+
+        return findObjectPosition;
+    }
+
+    private void MoveInInit()
     {
         if (m_MoveIn.Enable)
         {
-            m_MoveIn.Done = false;
-            m_MoveIn.EndPos = transform.GetComponent<RectTransform>().anchoredPosition;
+            m_MoveOriginal = RectTransformUtility.PixelAdjustPoint(transform.position, transform, GUIAnimSystem.Instance.GetCanvas(transform));
+            
+            m_MoveIn.EndPos = m_MoveOriginal;
 
             switch (m_MoveIn.MoveFrom)
             {
                 case ePosMove.ParentPosition:
-                    m_MoveIn.BeginPos = transform.parent.GetComponent<RectTransform>().pivot;
+                    m_MoveIn.BeginPos = transform.parent.position;
                     break;
 
                 case ePosMove.UpperScreenEdge:
-                    m_MoveIn.BeginPos = GameObject.Find("Panel (Top Center)").GetComponent<RectTransform>().anchoredPosition + (Vector2.up * transform.GetComponent<RectTransform>().offsetMax.y);
+                    m_MoveIn.BeginPos = FindObjectPosition("Panel (Top Center)") + (Vector3.up * m_bounds.size.y);
                     break;
 
                 case ePosMove.LeftScreenEdge:
-                    m_MoveIn.BeginPos = GameObject.Find("Panel (Middle Left)").GetComponent<RectTransform>().pivot - (Vector2.right * transform.GetComponent<RectTransform>().offsetMax.x);
+                    m_MoveIn.BeginPos = FindObjectPosition("Panel (Middle Left)") + (Vector3.left * m_bounds.size.x);
                     break;
 
                 case ePosMove.RightScreenEdge:
-                    m_MoveIn.BeginPos = GameObject.Find("Panel (Middle Right)").GetComponent<RectTransform>().pivot + (Vector2.right * transform.GetComponent<RectTransform>().offsetMax.x);
+                    m_MoveIn.BeginPos = FindObjectPosition("Panel (Middle Right)") + (Vector3.right * m_bounds.size.x);
                     break;
 
                 case ePosMove.BottomScreenEdge:
-                    m_MoveIn.BeginPos = GameObject.Find("Panel (Bottom Center)").GetComponent<RectTransform>().pivot - (Vector2.up * transform.GetComponent<RectTransform>().offsetMax.y);
+                    m_MoveIn.BeginPos = FindObjectPosition("Panel (Bottom Center)") + (Vector3.down * m_bounds.size.y);
                     break;
             }
         }
+    }
 
+    private void MoveOutInit()
+    {
         if (m_MoveOut.Enable)
         {
-            m_MoveOut.Done = false;
-            m_MoveOut.BeginPos = transform.GetComponent<RectTransform>().anchoredPosition;
+            m_MoveOut.BeginPos = m_MoveOriginal;
 
             switch (m_MoveOut.MoveTo)
             {
                 case ePosMove.ParentPosition:
-                    m_MoveOut.EndPos = transform.parent.GetComponent<RectTransform>().pivot;
+                    m_MoveOut.EndPos = transform.parent.position;
                     break;
 
                 case ePosMove.UpperScreenEdge:
-                    m_MoveOut.EndPos = GameObject.Find("Panel (Top Center)").GetComponent<RectTransform>().pivot + (Vector2.up * transform.GetComponent<RectTransform>().offsetMax.y);
+                    m_MoveOut.EndPos = FindObjectPosition("Panel (Top Center)") + (Vector3.up * m_bounds.size.y);
                     break;
 
                 case ePosMove.LeftScreenEdge:
-                    m_MoveOut.EndPos = GameObject.Find("Panel (Middle Left)").GetComponent<RectTransform>().pivot - (Vector2.right * transform.GetComponent<RectTransform>().offsetMax.x);
+                    m_MoveOut.EndPos = FindObjectPosition("Panel (Middle Left)") + (Vector3.left * m_bounds.size.x);
                     break;
 
                 case ePosMove.RightScreenEdge:
-                    m_MoveOut.EndPos = GameObject.Find("Panel (Middle Right)").GetComponent<RectTransform>().pivot + (Vector2.right * transform.GetComponent<RectTransform>().offsetMax.x);
+                    m_MoveOut.EndPos = FindObjectPosition("Panel (Middle Right)") + (Vector3.right * m_bounds.size.x);
                     break;
 
                 case ePosMove.BottomScreenEdge:
-                    m_MoveOut.EndPos = GameObject.Find("Panel (Bottom Center)").GetComponent<RectTransform>().pivot - (Vector2.up * transform.GetComponent<RectTransform>().offsetMax.y);
+                    m_MoveOut.EndPos = FindObjectPosition("Panel (Bottom Center)") + (Vector3.down * m_bounds.size.y);
                     break;
             }
         }
-
-        transform.localPosition = m_MoveIn.BeginPos;
     }
 
+    /// <summary>
+    /// Move 애니메이션 초기 설정.
+    /// </summary>
+    private void MoveInit()
+    {
+        MoveInInit();
+        MoveOutInit();
+
+        if(m_MoveIn.Enable)
+            transform.position = m_MoveIn.BeginPos;
+    }
+
+    /// <summary>
+    /// Fade 애니메이션 초기 설정
+    /// </summary>
     void FadeInit()
     {
         if (m_FadeIn.Enable)
         {
-            m_FadeIn.Done = false;
         }
 
         if (m_FadeOut.Enable)
@@ -86,11 +114,14 @@ public class GUIAnimator : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Scale 애니메이션 초기 설정
+    /// </summary>
     void ScaleInit()
     {
         if (m_ScaleIn.Enable)
         {
-            m_ScaleIn.Done = false;
+            m_ScaleOriginal = transform.localScale;
         }
 
         if (m_ScaleOut.Enable)
@@ -119,6 +150,8 @@ public class GUIAnimator : MonoBehaviour {
     public cScaleIn     m_ScaleIn;
     public cScaleOut    m_ScaleOut;
     public cScaleLoop   m_ScaleLoop;
+
+    private Bounds m_bounds;
 
     #endregion // Variables
 
@@ -154,13 +187,6 @@ public class GUIAnimator : MonoBehaviour {
     [System.Serializable]
     public abstract class cAnim
     {
-        [HideInInspector]
-        public bool Animating;
-        [HideInInspector]
-        public bool Began;
-        [HideInInspector]
-        public bool Done;
-
         public bool     Enable;
         public float    Delay;
         public float    Time;

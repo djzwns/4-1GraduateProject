@@ -5,14 +5,20 @@ using UnityEngine;
 public class RB_Game : MonoBehaviour {
 
     bool m_BoxOpen;
+    bool m_PauseBoxOpen;
     public GUIAnimator m_ObjectBox;
     public GUIAnimator m_OpenButton;
+
+    public GUIAnimator m_PauseBox;
+    public GUIAnimator m_PauseButton;
 
     void Awake()
     {
         m_BoxOpen = false;
+        m_PauseBoxOpen = false;
     }
 
+    // 오브젝트 박스 토글
     public void ToggleObjectBox()
     {
         m_BoxOpen = !m_BoxOpen;
@@ -31,8 +37,24 @@ public class RB_Game : MonoBehaviour {
         StartCoroutine(DisableButtonForSeconds(m_OpenButton.gameObject, 1.0f));
     }
 
-    public void ToggleObjectControlUI()
+    // 일시정지 박스 토글
+    public void TogglePauseBox()
     {
+        m_PauseBoxOpen = !m_PauseBoxOpen;
+
+        if (m_PauseBoxOpen == true)
+            m_PauseBox.MoveIn();
+        else
+            m_PauseBox.MoveOut();
+
+        StartCoroutine(DisableButtonForSeconds(m_PauseButton.gameObject, 1.0f));
+    }
+
+    // UI 숨김
+    public void HideAllGUIs()
+    {
+        m_PauseBox.MoveOut();
+        m_ObjectBox.MoveOut();
     }
 
     private IEnumerator DisableButtonForSeconds(GameObject _gObj, float _disableTime)
