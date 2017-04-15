@@ -3,29 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Collider2D))]
 public class Objects : MonoBehaviour {
-    
+
+    [HideInInspector]
+    public bool m_PowerEnable;
     bool m_CanMove      = false;
 
-    [Range(0f, 1f)]
-    float m_Power = -1;
-
-    Slider m_PowerBar;
+    protected Slider m_PowerBar;
     Slider m_RotateBar;
 
+    void Awake()
+    {
+        m_PowerEnable = true;
+    }
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
 	void Update () {
         FollowToFinger();
 
         RotateObject();
 	}
 
+    /// <summary>
+    /// 터치 좌표로 오브젝트 이동
+    /// </summary>
     void FollowToFinger()
     {
         if (!m_CanMove) return;
@@ -41,6 +42,9 @@ public class Objects : MonoBehaviour {
         m_CanMove = _move;
     }
 
+    /// <summary>
+    /// 슬라이더의 값에 따라 회전
+    /// </summary>
     private void RotateObject()
     {
         if (m_RotateBar == null) return;
@@ -51,6 +55,9 @@ public class Objects : MonoBehaviour {
 
     #region UI_Control
 
+    /// <summary>
+    /// 슬라이더바 세팅
+    /// </summary>
     public void SetSlider(Slider _power = null, Slider _rotate = null)
     {
         SetPowerBar(_power);
@@ -60,9 +67,6 @@ public class Objects : MonoBehaviour {
     private void SetPowerBar(Slider _power = null)
     {
         m_PowerBar = _power;
-        if (_power == null) return;
-        
-        m_PowerBar.value = m_Power;
     }
 
     private void SetRotateBar(Slider _rotate = null)
