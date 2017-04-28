@@ -19,13 +19,13 @@ public class DragUI : Singleton<DragUI>, /*IBeginDragHandler,*/ IDragHandler, IE
     {
         if (m_Drag) return;
         if (eventData.currentInputModule.IsPointerOverGameObject(0)) return;
+        m_Drag = true;
 
         // UI 밖으로 터치 포인트가 나가면 오브젝트를 생성
         m_Go = ObjectCreator.Instance.CreateObject(m_ObjectName);
         m_Go.GetComponent<Objects>().CanMove(true);
 
         TouchEvent.Instance.SetTouched(m_Go);
-        m_Drag = true;
     }
 
     public void OnEndDrag(PointerEventData eventData)

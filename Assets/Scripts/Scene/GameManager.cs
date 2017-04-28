@@ -14,7 +14,7 @@ public class GameManager : Singleton<GameManager> {
 
         StopBall();
     }
-
+    // 다시시작, 클리어시 스테이지 이동 구현
 
     #region Button Active
 
@@ -26,17 +26,26 @@ public class GameManager : Singleton<GameManager> {
         else StopBall(); 
     }    
     
-
+    /// <summary>
+    /// 게임 리셋
+    /// </summary>
     public void ResetGame()
     {
+        GameObject.FindObjectOfType<StartFlag>().ResetPosition(m_Ball.transform);
     }
 
+    /// <summary>
+    /// 일시 정지
+    /// </summary>
     private void StopBall()
     {
         m_Ball.constraints = RigidbodyConstraints2D.FreezeAll;
         m_Ball.gravityScale = 0f;
     }
 
+    /// <summary>
+    /// 실행
+    /// </summary>
     private void ActiveBall()
     {
         m_Ball.constraints = RigidbodyConstraints2D.None;

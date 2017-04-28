@@ -24,6 +24,7 @@ public class ObjectControlUI : Singleton<ObjectControlUI> {
     private void PositionUpdate()
     {
         if (!m_IsOn) return;
+        if (m_Object == null) return;
 
         Vector3 objPos = m_Object.transform.position;
         Vector3 worldToScreenPosition = Camera.main.WorldToScreenPoint(objPos);
@@ -33,6 +34,7 @@ public class ObjectControlUI : Singleton<ObjectControlUI> {
 
     public void SetObject(GameObject _object)
     {
+        if (_object == null) return;
         if (m_Object != null)
         {
             m_UI.gameObject.SetActive(false);
@@ -45,6 +47,8 @@ public class ObjectControlUI : Singleton<ObjectControlUI> {
 
     private void OnControlUI()
     {
+        if (!m_Object.GetComponent<Objects>().m_UIEnable) return;
+
         if (m_Object == null)
         {
             m_IsOn = false;

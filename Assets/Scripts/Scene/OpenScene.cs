@@ -16,8 +16,10 @@ public class OpenScene : MonoBehaviour {
         gameObject.SendMessage("HideAllGUIs");
     }
 
-    public void ButtonOpenGame()
+    public void ButtonOpenGame(string _stageName)
     {
+        StageInformation.m_stageName = _stageName;
+
         SceneManager.LoadScene("Game");
     }
 

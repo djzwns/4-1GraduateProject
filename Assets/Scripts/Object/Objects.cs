@@ -6,6 +6,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Collider2D))]
 public class Objects : MonoBehaviour {
 
+    public bool m_UIEnable;
     [HideInInspector]
     public bool m_PowerEnable;
     bool m_CanMove      = false;
@@ -15,7 +16,7 @@ public class Objects : MonoBehaviour {
 
     void Awake()
     {
-        m_PowerEnable = true;
+        m_PowerEnable = false;
     }
 
 	void Update () {
@@ -27,7 +28,7 @@ public class Objects : MonoBehaviour {
     /// <summary>
     /// 터치 좌표로 오브젝트 이동
     /// </summary>
-    void FollowToFinger()
+    protected void FollowToFinger()
     {
         if (!m_CanMove) return;
 
@@ -45,12 +46,11 @@ public class Objects : MonoBehaviour {
     /// <summary>
     /// 슬라이더의 값에 따라 회전
     /// </summary>
-    private void RotateObject()
+    protected void RotateObject()
     {
         if (m_RotateBar == null) return;
 
         transform.rotation = Quaternion.AngleAxis(-m_RotateBar.value, Vector3.forward);
-        Debug.Log(string.Format("RotateBar : {0} \tTransform : {1}", m_RotateBar.value, transform.localEulerAngles.z));
     }
 
     #region UI_Control

@@ -5,6 +5,7 @@ using UnityEngine;
 public class BrokenWall : Objects
 {
     public float m_BreakTime;
+    
 
     void OnCollisionEnter2D(Collision2D col)
     {
