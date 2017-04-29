@@ -8,7 +8,29 @@ public class RB_Lobby : MonoBehaviour
     public GUIAnimator m_Music;
     public GUIAnimator m_Skin;
 
+    public GUIAnimator[] m_Map;
+
+    public ScrollSnap m_ScollSnap;
+    private int m_lastPage;
+
     private bool m_SettingOn = false;
+
+    void Start()
+    {
+        m_lastPage = m_ScollSnap.m_currentPage;
+        m_Map[m_lastPage].MoveIn();
+    }
+
+    void Update()
+    {
+        if (m_lastPage != m_ScollSnap.m_currentPage)
+        {
+            m_Map[m_lastPage].MoveOut();
+
+            m_lastPage = m_ScollSnap.m_currentPage;
+            m_Map[m_lastPage].MoveIn();
+        }
+    }
 
     public void OnSetting()
     {

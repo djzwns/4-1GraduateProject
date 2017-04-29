@@ -28,7 +28,7 @@ public class GUIAnimator : MonoBehaviour {
     {
         if (m_MoveIn.Enable)
         {
-            m_MoveOriginal = RectTransformUtility.PixelAdjustPoint(transform.position, transform, GUIAnimSystem.Instance.GetCanvas(transform));
+            m_MoveOriginal = transform.position;//RectTransformUtility.PixelAdjustPoint(transform.position, transform, GUIAnimSystem.Instance.GetCanvas(transform));
             
             m_MoveIn.EndPos = m_MoveOriginal;
 
