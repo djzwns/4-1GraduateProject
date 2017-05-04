@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class GUIAnimSystem : Singleton<GUIAnimSystem> {
 
@@ -36,6 +37,25 @@ public class GUIAnimSystem : Singleton<GUIAnimSystem> {
         foreach (var button in buttons)
         {
             button.enabled = true;
+        }
+    }
+
+    public void ButtonAddEvents(Transform _trans, UnityAction _action)
+    {
+        Button button = _trans.GetComponent<Button>();
+        button.onClick.AddListener(_action);
+    }
+
+    /// <summary>
+    /// 모든 버튼에 이벤트 추가
+    /// </summary>
+    /// <param name="_action"></param>
+    public void AllButtonAddEvents(UnityAction _action)
+    {
+        Button[] buttons = FindObjectsOfType<Button>();
+        foreach (var button in buttons)
+        {
+            button.onClick.AddListener(_action);
         }
     }
 

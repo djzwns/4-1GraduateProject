@@ -11,14 +11,18 @@ public class OpenScene : MonoBehaviour {
     public void ButtonOpenLobby()
     {
         GUIAnimSystem.Instance.EnableAllButton(false);
-        GUIAnimSystem.Instance.LoadLevel("Lobby", 1.5f);
+        GUIAnimSystem.Instance.LoadLevel("Lobby", 1.0f);
 
         gameObject.SendMessage("HideAllGUIs");
     }
 
-    public void ButtonOpenGame(string _stageName)
+    public void ButtonOpenGame(int _stageNum)
     {
-        StageInformation.m_stageName = _stageName;
+        if (StageInformation.m_lastStage < _stageNum) return;
+        StageInformation.m_stageNum = _stageNum;
+
+        // 스테이지 따라 브금 변경..
+        BGMManager.Instance.BGMChange(-1);
 
         SceneManager.LoadScene("Game");
     }

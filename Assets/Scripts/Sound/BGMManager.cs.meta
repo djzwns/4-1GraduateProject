@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: c31e7c5e8f86fc94e9fcb476d3820abd
+timeCreated: 1493916440
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - m_button_clip: {fileID: 8300000, guid: 45ddd0c2b21f19e47be52328ecab2dc6, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

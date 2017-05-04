@@ -4,52 +4,45 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager> {
 
-    private bool m_IsPlaying;
-    private Rigidbody2D m_Ball;
+    public bool m_IsPlaying { get; private set; }
+    public bool m_IsPause { get; private set; }
 
-    void Awake()
+    private Ball m_Ball;
+    private CameraController m_CamController;
+    
+    void Start()
     {
         m_IsPlaying = false;
-        m_Ball = GameObject.Find("ball").GetComponent<Rigidbody2D>();
-
-        StopBall();
+        m_Ball = GameObject.Find("ball").GetComponent<Ball>();
+        m_CamController = GameObject.FindObjectOfType<CameraController>();
     }
+
     // 다시시작, 클리어시 스테이지 이동 구현
 
     #region Button Active
 
-    public void TogglePlayStop()
+    public void StopGame()
     {
-        m_IsPlaying = !m_IsPlaying;
+        m_Ball.Stop();
+        m_IsPause = true;
+    }
 
-        if (m_IsPlaying) ActiveBall();
-        else StopBall(); 
-    }    
-    
+    public void PlayGame()
+    {
+        m_IsPlaying = true;
+        m_IsPause = false;
+        m_Ball.Active();
+    }
+
     /// <summary>
     /// 게임 리셋
     /// </summary>
     public void ResetGame()
     {
-        GameObject.FindObjectOfType<StartFlag>().ResetPosition(m_Ball.transform);
-    }
-
-    /// <summary>
-    /// 일시 정지
-    /// </summary>
-    private void StopBall()
-    {
-        m_Ball.constraints = RigidbodyConstraints2D.FreezeAll;
-        m_Ball.gravityScale = 0f;
-    }
-
-    /// <summary>
-    /// 실행
-    /// </summary>
-    private void ActiveBall()
-    {
-        m_Ball.constraints = RigidbodyConstraints2D.None;
-        m_Ball.gravityScale = 1f;
+        m_IsPlaying = false;
+        m_IsPause = false;
+        m_Ball.Reset();
+        m_CamController.ResetPosition(m_Ball.transform);
     }
 
     #endregion // Button Active

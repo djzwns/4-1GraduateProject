@@ -17,16 +17,20 @@ public class CameraController : MonoBehaviour
 
     #endregion //Variables
 
-    Camera m_Camera;
-
-	// Use this for initialization
-	void Start () {
+    private Camera m_Camera;
+    private GameObject m_Ball;
+    
+	void Start ()
+    {
         m_Camera = Camera.main;
-	}
+        m_Ball = GameObject.Find("ball");
+        ResetPosition(m_Ball.transform);
+    }
 	
-	// Update is called once per frame
-	void Update () {
-		
+	void LateUpdate ()
+    {
+        if(CanMove())
+            SmoothFollow();
 	}
 
     public void Zoom(float _deltaPinch)
@@ -38,5 +42,26 @@ public class CameraController : MonoBehaviour
     public void Move(Vector2 _vec)
     {
         this.transform.Translate(_vec * m_MoveSpeed);
+    }
+
+    public void ResetPosition(Transform _lookAt)
+    {
+        Vector3 resetPosition = new Vector3(_lookAt.position.x, _lookAt.position.y, transform.position.z);
+        transform.position = resetPosition;
+    }
+
+    private void SmoothFollow()
+    {
+        Vector3 target = new Vector3(m_Ball.transform.position.x, m_Ball.transform.position.y, transform.position.z);
+        transform.position = Vector3.Lerp(transform.position, target, Time.deltaTime * m_MoveSpeed * 10f);
+    }
+
+    private bool CanMove()
+    {
+        if (m_Ball == null) return false;
+        if (!GameManager.Instance.m_IsPlaying) return false;
+        if (GameManager.Instance.m_IsPause) return false;
+
+        return true;
     }
 }

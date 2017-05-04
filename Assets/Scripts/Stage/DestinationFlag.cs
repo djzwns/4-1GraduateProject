@@ -22,6 +22,7 @@ public class DestinationFlag : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.Instance.m_IsPause) return;
         if (m_timerOn)
         {
             m_timer.Update(Time.deltaTime);
@@ -33,6 +34,10 @@ public class DestinationFlag : MonoBehaviour
             // 클리어 !
             m_str = "CLEAR!!";
             // 클리어 부분 추가...
+            StageManager.Instance.m_IsClear = true;
+            GameManager.Instance.StopGame();
+            // 다음 스테이지 갈지말지..?
+            GameObject.FindObjectOfType<RB_Game>().TogglePauseBox();
         }
     }
 

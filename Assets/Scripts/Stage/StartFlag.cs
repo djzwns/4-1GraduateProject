@@ -9,7 +9,7 @@ public class StartFlag : MonoBehaviour
 {
     private Vector3 m_startPosition;
 
-    void Start()
+    void Awake()
     {
         m_startPosition = transform.position;
     }

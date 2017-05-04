@@ -38,6 +38,10 @@ public class GUIAnimator : MonoBehaviour {
                     m_MoveIn.BeginPos = transform.parent.position;
                     break;
 
+                case ePosMove.SelfPosition:
+                    m_MoveOut.BeginPos = transform.position;
+                    break;
+
                 case ePosMove.UpperScreenEdge:
                     m_MoveIn.BeginPos = FindObjectPosition("Panel (Top Center)") + (Vector3.up * m_bounds.size.y);
                     break;
@@ -67,6 +71,10 @@ public class GUIAnimator : MonoBehaviour {
             {
                 case ePosMove.ParentPosition:
                     m_MoveOut.EndPos = transform.parent.position;
+                    break;
+
+                case ePosMove.SelfPosition:
+                    m_MoveOut.EndPos = transform.position;
                     break;
 
                 case ePosMove.UpperScreenEdge:
