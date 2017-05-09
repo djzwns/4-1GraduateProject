@@ -19,20 +19,26 @@ public class CameraController : MonoBehaviour
 
     private Camera m_Camera;
     private GameObject m_Ball;
+    private float m_orthographicSize;
     
 	void Start ()
     {
         m_Camera = Camera.main;
         m_Ball = GameObject.Find("ball");
         ResetPosition(m_Ball.transform);
+        m_orthographicSize = m_Camera.orthographicSize;
     }
 	
 	void LateUpdate ()
     {
-        if(CanMove())
+        if (CanMove())
             SmoothFollow();
 	}
 
+    /// <summary>
+    /// 핀치 작동 중 발생한 값 만큼 축소 확대
+    /// </summary>
+    /// <param name="_deltaPinch"></param>
     public void Zoom(float _deltaPinch)
     {
         float size = m_Camera.orthographicSize + _deltaPinch * m_ZoomSpeed;
@@ -52,6 +58,7 @@ public class CameraController : MonoBehaviour
 
     private void SmoothFollow()
     {
+        m_Camera.orthographicSize = m_MinCamSize;
         Vector3 target = new Vector3(m_Ball.transform.position.x, m_Ball.transform.position.y, transform.position.z);
         transform.position = Vector3.Lerp(transform.position, target, Time.deltaTime * m_MoveSpeed * 10f);
     }
