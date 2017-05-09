@@ -198,6 +198,10 @@ public class GUIAnimator : MonoBehaviour {
         public bool     Enable;
         public float    Delay;
         public float    Time;
+        [HideInInspector]
+        public bool     Began;
+        [HideInInspector]
+        public bool     Ended;
     }
 
     [System.Serializable]

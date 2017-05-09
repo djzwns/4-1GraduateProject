@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
-public class GUIAnimSystem : Singleton<GUIAnimSystem> {
-
+public class GUIAnimSystem : Singleton<GUIAnimSystem>
+{
     [Range(0.5f, 10f)]
     public float m_GUISpeed;
 
@@ -28,7 +28,8 @@ public class GUIAnimSystem : Singleton<GUIAnimSystem> {
 
     public void EnableButton(Transform _trans, bool _enable)
     {
-        _trans.GetComponent<Button>().enabled = _enable;
+        Button btn = _trans.GetComponent<Button>();
+        btn.enabled = _enable;
     }
 
     public void EnableAllButton(bool _enable)
@@ -40,6 +41,17 @@ public class GUIAnimSystem : Singleton<GUIAnimSystem> {
         }
     }
 
+    public void InteractableButton(Transform _trans, bool _enable)
+    {
+        Button btn = _trans.GetComponent<Button>();
+        btn.interactable = _enable;
+    }
+
+    /// <summary>
+    /// 특정 버튼에 이벤트 추가
+    /// </summary>
+    /// <param name="_trans"></param>
+    /// <param name="_action"></param>
     public void ButtonAddEvents(Transform _trans, UnityAction _action)
     {
         Button button = _trans.GetComponent<Button>();
@@ -68,25 +80,25 @@ public class GUIAnimSystem : Singleton<GUIAnimSystem> {
         GUIAnimator gui = _trans.GetComponent<GUIAnimator>();
 
         // 움직임
-        if (gui.m_MoveIn.Enable)
+        if (gui.m_MoveIn.Enable && !gui.m_MoveIn.Began)
         {
             StartCoroutine(MoveIn(gui));
         }
 
         // 페이드
-        if (gui.m_FadeIn.Enable)
+        if (gui.m_FadeIn.Enable && !gui.m_FadeIn.Began)
         {
             StartCoroutine(FadeIn(gui));
         }
 
         // 스케일
-        if (gui.m_ScaleIn.Enable)
+        if (gui.m_ScaleIn.Enable && !gui.m_ScaleIn.Began)
         {
             StartCoroutine(ScaleIn(gui));
         }
 
         // 스케일 루프
-        if (gui.m_ScaleLoop.Enable)
+        if (gui.m_ScaleLoop.Enable && !gui.m_ScaleLoop.Began)
         {
             StartCoroutine(ScaleLoop(gui));
         }
@@ -97,18 +109,18 @@ public class GUIAnimSystem : Singleton<GUIAnimSystem> {
         GUIAnimator gui = _trans.GetComponent<GUIAnimator>();
 
         // 움직임
-        if (gui.m_MoveOut.Enable)
+        if (gui.m_MoveOut.Enable && !gui.m_MoveOut.Began)
         {
             StartCoroutine(MoveOut(gui));
         }
 
         // 페이드
-        if (gui.m_FadeOut.Enable)
+        if (gui.m_FadeOut.Enable && !gui.m_FadeOut.Began)
         {
         }
 
         // 스케일
-        if (gui.m_ScaleOut.Enable)
+        if (gui.m_ScaleOut.Enable && !gui.m_ScaleOut.Began)
         {
             StartCoroutine(ScaleOut(gui));
         }
@@ -147,7 +159,10 @@ public class GUIAnimSystem : Singleton<GUIAnimSystem> {
     {
         // 지연시간 지난 후 실행
         yield return new WaitForSeconds(_gui.m_MoveIn.Delay);
-        
+
+        _gui.m_MoveIn.Began = true;
+        _gui.m_MoveIn.Ended = false;
+
         float t = 0f;
         while (t <= 1)
         {
@@ -157,12 +172,18 @@ public class GUIAnimSystem : Singleton<GUIAnimSystem> {
 
             yield return new WaitForFixedUpdate();
         }
+
+        _gui.m_MoveIn.Began = false;
+        _gui.m_MoveIn.Ended = true;
     }
 
     IEnumerator MoveOut(GUIAnimator _gui)
     {
         // 지연시간 지난 후 실행
         yield return new WaitForSeconds(_gui.m_MoveOut.Delay);
+
+        _gui.m_MoveOut.Began = true;
+        _gui.m_MoveOut.Ended = false;
 
         float t = 0f;
         while (t <= 1)
@@ -173,21 +194,30 @@ public class GUIAnimSystem : Singleton<GUIAnimSystem> {
                         
             yield return new WaitForFixedUpdate();
         }
+
+        _gui.m_MoveOut.Began = false;
+        _gui.m_MoveOut.Ended = true;
     }
 
     IEnumerator ScaleIn(GUIAnimator _gui)
     {
         yield return new WaitForSeconds(_gui.m_ScaleIn.Delay);
 
+        _gui.m_ScaleIn.Began = true;
+        _gui.m_ScaleIn.Ended = false;
+
         float t = 0f;
         while (t <= 1)
         {
             t += Time.deltaTime * m_GUISpeed / _gui.m_ScaleIn.Time;
 
-            _gui.transform.localScale = Vector3.Lerp(_gui.m_ScaleOriginal, _gui.m_ScaleIn.Size, t);
+            _gui.transform.localScale = Vector3.Lerp(_gui.m_ScaleOut.Size, _gui.m_ScaleIn.Size, t);
             
             yield return new WaitForFixedUpdate();
         }
+
+        _gui.m_ScaleIn.Began = false;
+        _gui.m_ScaleIn.Ended = true;
     }
 
 
@@ -195,20 +225,29 @@ public class GUIAnimSystem : Singleton<GUIAnimSystem> {
     {
         yield return new WaitForSeconds(_gui.m_ScaleOut.Delay);
 
+        _gui.m_ScaleOut.Began = true;
+        _gui.m_ScaleOut.Ended = false;
+
         float t = 0f;
         while (t <= 1)
         {
             t += Time.deltaTime * m_GUISpeed / _gui.m_ScaleOut.Time;
 
-            _gui.transform.localScale = Vector3.Lerp(_gui.m_ScaleOut.Size, _gui.m_ScaleOriginal, t);
+            _gui.transform.localScale = Vector3.Lerp(_gui.m_ScaleIn.Size, _gui.m_ScaleOut.Size, t);
             
             yield return new WaitForFixedUpdate();
         }
+
+        _gui.m_ScaleOut.Began = false;
+        _gui.m_ScaleOut.Ended = true;
     }
 
     IEnumerator ScaleLoop(GUIAnimator _gui)
     {
         yield return new WaitForSeconds(_gui.m_ScaleLoop.Delay);
+
+        _gui.m_ScaleLoop.Began = true;
+        _gui.m_ScaleLoop.Ended = false;
 
         float t;
         while (true)
