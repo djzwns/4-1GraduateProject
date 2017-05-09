@@ -34,7 +34,6 @@ public class ObjectControlUI : Singleton<ObjectControlUI> {
 
     public void SetObject(GameObject _object)
     {
-        if (_object == null) return;
         if (m_Object != null)
         {
             m_UI.gameObject.SetActive(false);
@@ -47,14 +46,14 @@ public class ObjectControlUI : Singleton<ObjectControlUI> {
 
     private void OnControlUI()
     {
-        if (!m_Object.GetComponent<Objects>().m_UIEnable) return;
-
         if (m_Object == null)
         {
             m_IsOn = false;
             m_UI.gameObject.SetActive(false);
+            return;
         }
-        else
+
+        if (m_Object.GetComponent<Objects>().m_UIEnable)
         {
             m_IsOn = true;
             m_UI.gameObject.SetActive(true);

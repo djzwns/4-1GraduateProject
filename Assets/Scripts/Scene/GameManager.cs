@@ -24,11 +24,12 @@ public class GameManager : Singleton<GameManager> {
     public void StopGame()
     {
         m_Ball.Stop();
-        m_IsPause = true;
+        m_IsPause = !m_IsPause;
     }
 
     public void PlayGame()
     {
+        if (m_IsPause) return;
         m_IsPlaying = true;
         m_IsPause = false;
         m_Ball.Active();
@@ -41,6 +42,7 @@ public class GameManager : Singleton<GameManager> {
     {
         m_IsPlaying = false;
         m_IsPause = false;
+        StageManager.Instance.m_IsClear = false;
         m_Ball.Reset();
         m_CamController.ResetPosition(m_Ball.transform);
     }

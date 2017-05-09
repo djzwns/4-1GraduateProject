@@ -19,7 +19,7 @@ public class Ball : MonoBehaviour
         m_lastVelocity = m_Ball.velocity;
         m_Ball.gravityScale = 0f;
         m_Ball.constraints = RigidbodyConstraints2D.FreezeAll;
-        Debug.Log(string.Format("last : {0}", m_lastVelocity));
+        //Debug.Log(string.Format("last : {0}", m_lastVelocity));
     }
 
     public void Active()
@@ -27,7 +27,7 @@ public class Ball : MonoBehaviour
         m_Ball.velocity = m_lastVelocity;
         m_Ball.gravityScale = 1f;
         m_Ball.constraints = RigidbodyConstraints2D.None;
-        Debug.Log(string.Format("ball vel : {0}", m_Ball.velocity));
+        //Debug.Log(string.Format("ball vel : {0}", m_Ball.velocity));
     }
 
     public void Reset()

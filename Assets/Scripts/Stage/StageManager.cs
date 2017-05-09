@@ -28,8 +28,6 @@ public class StageManager : Singleton<StageManager>
         if (nextStage.Equals("end")) return;
         m_IsClear = false;
 
-        if (StageInformation.RenewalStage()) Save();
-
         GameObject destroyObject = m_Map;
         destroyObject.SetActive(false);
         Destroy(destroyObject);
@@ -37,8 +35,9 @@ public class StageManager : Singleton<StageManager>
         m_Map = m_stageCreator.Create(nextStage);
     }
 
-    private void Save()
+    public void Save()
     {
-        PlayerPrefs.SetInt("RB_LastStage", StageInformation.m_lastStage);
+        if (StageInformation.RenewalStage())
+            PlayerPrefs.SetInt("RB_LastStage", StageInformation.m_lastStage);
     }
 }

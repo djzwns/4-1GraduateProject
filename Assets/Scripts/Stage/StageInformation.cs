@@ -4,7 +4,7 @@
 
 public static class StageInformation
 {
-    static string[] m_stageName = 
+    private static string[] m_stageName = 
         {
         "stage1-1", "stage1-2", "stage1-3",
         "stage2-1", "stage2-2", "stage2-3",

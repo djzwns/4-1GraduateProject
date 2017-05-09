@@ -29,12 +29,15 @@ public class DestinationFlag : MonoBehaviour
             m_str = m_timer.RemainingTime().ToString("0.00");
         }
 
-        if (m_timer.IsTimeOut())
+        if (!m_timer.IsTimeOut()) return;
+
+        if (!StageManager.Instance.m_IsClear)
         {
             // 클리어 !
             m_str = "CLEAR!!";
             // 클리어 부분 추가...
             StageManager.Instance.m_IsClear = true;
+            StageManager.Instance.Save();
             GameManager.Instance.StopGame();
             // 다음 스테이지 갈지말지..?
             GameObject.FindObjectOfType<RB_Game>().TogglePauseBox();

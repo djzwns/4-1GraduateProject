@@ -28,6 +28,8 @@ public class RB_Lobby : MonoBehaviour
         GUIAnimSystem.Instance.ButtonAddEvents(m_Music.transform, BGMManager.Instance.ToggleMute);
         GUIAnimSystem.Instance.ButtonAddEvents(m_Music.transform, ToggleMute);
         MuteImageChange(m_Music.GetComponent<Image>());
+
+        InteractableMapButton(StageInformation.m_lastStage);
     }
 
     void Update()
@@ -41,6 +43,9 @@ public class RB_Lobby : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 설정 버튼 온/오프
+    /// </summary>
     public void OnSetting()
     {
         m_SettingOn = !m_SettingOn;
@@ -58,6 +63,9 @@ public class RB_Lobby : MonoBehaviour
         StartCoroutine(DisableButtonForSeconds(m_Setting.gameObject, 0.5f));
     }
 
+    /// <summary>
+    /// 음악 온/오프 이미지 토글
+    /// </summary>
     public void ToggleMute()
     {
         Image btn = m_Music.GetComponent<Image>();
@@ -78,5 +86,22 @@ public class RB_Lobby : MonoBehaviour
         yield return new WaitForSeconds(_disableTime);
 
         GUIAnimSystem.Instance.EnableButton(_gObj.transform, true);
+    }
+
+    /// <summary>
+    /// 클리어 완료 된 맵까지만 버튼 활성화
+    /// </summary>
+    /// <param name="_lastStage"></param>
+    private void InteractableMapButton(int _lastStage)
+    {
+        GameObject mapPanel = GameObject.Find("Panel (Bottom Center)");
+        Button[] btn = mapPanel.GetComponentsInChildren<Button>();
+        for (int i = 0; i < btn.Length; ++i)
+        {
+            if (i <= _lastStage)
+                GUIAnimSystem.Instance.InteractableButton(btn[i].transform, true);
+            else
+                GUIAnimSystem.Instance.InteractableButton(btn[i].transform, false);
+        }
     }
 }

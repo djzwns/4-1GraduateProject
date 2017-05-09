@@ -30,6 +30,7 @@ public class DragUI : Singleton<DragUI>, /*IBeginDragHandler,*/ IDragHandler, IE
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (m_Go == null) return;
         m_Go.GetComponent<Objects>().CanMove(false);
         m_Drag = false;
     }

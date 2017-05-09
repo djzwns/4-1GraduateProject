@@ -14,6 +14,8 @@ public class RB_Game : MonoBehaviour {
     public GameObject[] m_Next_ResetButton;
     public Text m_PauseBoxLabel;
 
+    public GUIAnimator m_WasteBasket;
+
     void Awake()
     {
         m_BoxOpen = false;
@@ -50,15 +52,16 @@ public class RB_Game : MonoBehaviour {
         if (m_PauseBoxOpen == true)
         {
             m_PauseBox.MoveIn();
-            if (GameManager.Instance.m_IsPlaying) GameManager.Instance.StopGame();
         }
         else
         {
-            if (GameManager.Instance.m_IsPlaying) GameManager.Instance.PlayGame();
             m_PauseBox.MoveOut();
         }
 
-        StartCoroutine(DisableButtonForSeconds(m_PauseButton.gameObject, 0.5f));
+        if (!StageManager.Instance.m_IsClear)
+            StartCoroutine(DisableButtonForSeconds(m_PauseButton.gameObject, 0.5f));
+        else
+            EnableButton(m_PauseButton.gameObject, false);
     }
 
     private void ToggleNextReset()
@@ -107,5 +110,20 @@ public class RB_Game : MonoBehaviour {
         yield return new WaitForSeconds(_disableTime);
 
         GUIAnimSystem.Instance.EnableButton(_gObj.transform, true);
+    }
+
+    private void EnableButton(GameObject _gObj, bool _enable)
+    {
+        GUIAnimSystem.Instance.EnableButton(_gObj.transform, _enable);
+    }
+
+    public void BasketOn()
+    {
+        m_WasteBasket.MoveIn();
+    }
+
+    public void BasketOff()
+    {
+        m_WasteBasket.MoveOut();
     }
 }
