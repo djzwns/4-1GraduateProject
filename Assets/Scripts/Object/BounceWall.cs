@@ -2,30 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BounceWall : Objects {
-
-    public PhysicsMaterial2D m_Physics;
+public class BounceWall : Objects
+{
+    
     public Animator m_anim;
 
     void Start()
     {
-        // 공용 메테리얼을 사용해서 하나를 바꾸면 같은 재질 쓰는 모든 것에 영향이 감.
-        m_Physics = gameObject.GetComponent<Collider2D>().sharedMaterial;
         m_PowerEnable = false;
     }
 
     void Update()
     {
         FollowToFinger();
-        RotateObject();
+        RotateObject(this.transform);
         SetBounciness();
     }
 
     private void SetBounciness()
     {
         if (m_PowerBar == null) return;
-
-        m_Physics.bounciness = m_PowerBar.value;
     }
 
     void OnCollisionEnter2D(Collision2D coll)

@@ -9,10 +9,11 @@ public class Objects : MonoBehaviour {
     public bool m_UIEnable;
     [HideInInspector]
     public bool m_PowerEnable;
-    bool m_CanMove      = false;
+    private bool m_CanMove      = false;
 
+    protected float m_power;
     protected Slider m_PowerBar;
-    Slider m_RotateBar;
+    protected Slider m_RotateBar;
 
     void Awake()
     {
@@ -22,7 +23,7 @@ public class Objects : MonoBehaviour {
 	void Update () {
         FollowToFinger();
 
-        RotateObject();
+        RotateObject(this.transform);
 	}
 
     /// <summary>
@@ -46,11 +47,18 @@ public class Objects : MonoBehaviour {
     /// <summary>
     /// 슬라이더의 값에 따라 회전
     /// </summary>
-    protected void RotateObject()
+    protected void RotateObject(Transform _trans)
     {
         if (m_RotateBar == null) return;
 
-        transform.rotation = Quaternion.AngleAxis(-m_RotateBar.value, Vector3.forward);
+        _trans.rotation = Quaternion.AngleAxis(-m_RotateBar.value, Vector3.forward);
+    }
+
+    protected void PowerRenewal()
+    {
+        if (m_PowerBar == null) return;
+
+        m_power = m_PowerBar.value;
     }
 
     #region UI_Control
@@ -67,6 +75,9 @@ public class Objects : MonoBehaviour {
     private void SetPowerBar(Slider _power = null)
     {
         m_PowerBar = _power;
+        if (_power == null) return;
+
+        m_PowerBar.value = m_power;
     }
 
     private void SetRotateBar(Slider _rotate = null)
