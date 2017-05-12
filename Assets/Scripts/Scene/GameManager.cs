@@ -30,6 +30,11 @@ public class GameManager : Singleton<GameManager> {
     public void PlayGame()
     {
         if (m_IsPause) return;
+        if (m_IsPlaying)
+        {
+            ResetGame();
+            return;
+        }
         m_IsPlaying = true;
         m_IsPause = false;
         m_Ball.Active();
@@ -43,8 +48,22 @@ public class GameManager : Singleton<GameManager> {
         m_IsPlaying = false;
         m_IsPause = false;
         StageManager.Instance.m_IsClear = false;
+        StageManager.Instance.ResetStageObject();
         m_Ball.Reset();
         m_CamController.ResetPosition(m_Ball.transform);
+    }
+
+    /// <summary>
+    /// 유저가 생성한 오브젝트를 지워버림.
+    /// </summary>
+    public void ObjectsDestroy()
+    {
+        Objects[] userObjects = GameObject.Find("UserObjects").GetComponentsInChildren<Objects>();
+
+        foreach (Objects uo in userObjects)
+        {
+            Destroy(uo.gameObject);
+        }
     }
 
     #endregion // Button Active

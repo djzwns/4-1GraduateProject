@@ -10,6 +10,7 @@ public class StageManager : Singleton<StageManager>
 {
     private GameObject m_Map;
     private StageCreator m_stageCreator;
+    private List<GameObject> m_GameObjectList;
 
     public bool m_IsClear { get; set; }
 
@@ -18,6 +19,7 @@ public class StageManager : Singleton<StageManager>
         m_stageCreator = gameObject.AddComponent<StageCreator>();
         // 스테이지 생성
         m_Map = m_stageCreator.Create(StageInformation.GetCurrentStage());
+        m_GameObjectList = new List<GameObject>();
     }
 
     public void NextStage()
@@ -39,5 +41,30 @@ public class StageManager : Singleton<StageManager>
     {
         if (StageInformation.RenewalStage())
             PlayerPrefs.SetInt("RB_LastStage", StageInformation.m_lastStage);
+    }
+
+
+    /// <summary>
+    /// 오브젝트 사용, 미사용 설정
+    /// </summary>
+    /// <param name="_object"></param>
+    /// <param name="_enable"></param>
+    /// <param name="_disableTime"></param>
+    /// <returns></returns>
+    public IEnumerator EnableGameObject(GameObject _object, bool _enable, float _disableTime = 0)
+    {
+        yield return new WaitForSeconds(_disableTime);
+        m_GameObjectList.Add(_object);
+
+        _object.SetActive(_enable);
+    }
+
+    /// <summary>
+    /// 스테이지에서 재설정이 필요한 오브젝트들을 리셋 시킴.
+    /// </summary>
+    public void ResetStageObject()
+    {
+        m_GameObjectList.ForEach(go => { go.SetActive(true); });
+        m_GameObjectList.Clear();
     }
 }

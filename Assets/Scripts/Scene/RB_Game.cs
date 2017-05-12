@@ -87,6 +87,7 @@ public class RB_Game : MonoBehaviour {
 
         m_PauseBox.MoveOut();
         GameManager.Instance.ResetGame();
+        GameManager.Instance.ObjectsDestroy();
     }
 
     // 다음맵
