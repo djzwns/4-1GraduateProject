@@ -9,6 +9,7 @@ public class DestinationFlag : MonoBehaviour
 {
     public GUIStyle m_style;
     public float m_limitTime = 3f;
+    public GameObject m_effect;
 
     private Timer m_timer;
     private string m_str;
@@ -18,6 +19,7 @@ public class DestinationFlag : MonoBehaviour
     {
         m_timer = new Timer(m_limitTime);
         m_timerOn = false;
+        m_effect.SetActive(false);
     }
 
     void Update()
@@ -48,6 +50,7 @@ public class DestinationFlag : MonoBehaviour
     {
         if (coll.tag != "ball") return;
         m_timerOn = true;
+        m_effect.SetActive(true);
     }
 
     void OnTriggerExit2D(Collider2D coll)
@@ -56,6 +59,7 @@ public class DestinationFlag : MonoBehaviour
         m_timerOn = false;
         m_timer.Reset();
         m_str = "";
+        m_effect.SetActive(false);
     }
 
     void OnGUI()

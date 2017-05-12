@@ -5,7 +5,6 @@ using UnityEngine;
 public class Ball : MonoBehaviour
 {
     private Rigidbody2D m_Ball;
-    private Vector2 m_lastVelocity;
 
     void Awake()
     {
@@ -16,18 +15,14 @@ public class Ball : MonoBehaviour
 
     public void Stop()
     {
-        m_lastVelocity = m_Ball.velocity;
         m_Ball.gravityScale = 0f;
         m_Ball.constraints = RigidbodyConstraints2D.FreezeAll;
-        //Debug.Log(string.Format("last : {0}", m_lastVelocity));
     }
 
     public void Active()
     {
-        m_Ball.velocity = m_lastVelocity;
         m_Ball.gravityScale = 1f;
         m_Ball.constraints = RigidbodyConstraints2D.None;
-        //Debug.Log(string.Format("ball vel : {0}", m_Ball.velocity));
     }
 
     public void Reset()

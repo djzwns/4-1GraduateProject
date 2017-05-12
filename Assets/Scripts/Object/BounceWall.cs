@@ -14,14 +14,8 @@ public class BounceWall : Objects
 
     void Update()
     {
-        FollowToFinger();
+        FollowToFinger(this.transform);
         RotateObject(this.transform);
-        SetBounciness();
-    }
-
-    private void SetBounciness()
-    {
-        if (m_PowerBar == null) return;
     }
 
     void OnCollisionEnter2D(Collision2D coll)

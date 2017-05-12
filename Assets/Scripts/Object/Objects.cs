@@ -21,7 +21,7 @@ public class Objects : MonoBehaviour {
     }
 
 	void Update () {
-        FollowToFinger();
+        FollowToFinger(this.transform);
 
         RotateObject(this.transform);
 	}
@@ -29,14 +29,14 @@ public class Objects : MonoBehaviour {
     /// <summary>
     /// 터치 좌표로 오브젝트 이동
     /// </summary>
-    protected void FollowToFinger()
+    protected void FollowToFinger(Transform _trans)
     {
         if (!m_CanMove) return;
 
         Vector2 touchPos = Input.GetTouch(0).position;
         Vector2 worldPos = Camera.main.ScreenToWorldPoint(touchPos);
 
-        transform.position = worldPos;
+        _trans.position = worldPos;
     }
 
     public void CanMove(bool _move)

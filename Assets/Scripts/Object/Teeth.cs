@@ -1,0 +1,63 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Teeth : Objects
+{
+    public Transform m_direction;
+    public float m_spitTime = 1f;
+
+    private float m_max_power = 10f;
+    [Range(0f, 2f)]
+    public float m_const_power = 0;
+
+    void Start()
+    {
+        m_PowerEnable = true;
+    }
+
+    void Update()
+    {
+        FollowToFinger(this.transform);
+        RotateObject(this.transform);
+        PowerRenewal();
+    }
+
+    void OnTriggerEnter2D(Collider2D coll)
+    {
+        if (coll.tag != "ball") return;
+
+        StartCoroutine(Spit(coll.gameObject, m_spitTime));
+    }
+
+    /// <summary>
+    /// 오브젝트를 잡았다가 _time 시간이 지난 후에 발사함
+    /// </summary>
+    /// <param name="_go"></param>
+    /// <param name="_time"></param>
+    /// <returns></returns>
+    private IEnumerator Spit(GameObject _go, float _time)
+    {
+        Rigidbody2D rigid = _go.GetComponent<Rigidbody2D>();
+
+        if (rigid == null) yield return null;
+
+        _go.transform.position = m_direction.position;
+
+        rigid.velocity = Vector2.zero;
+        rigid.gravityScale = 0;
+        rigid.constraints = RigidbodyConstraints2D.FreezeAll;
+
+        yield return new WaitForSeconds(_time);
+
+        float power = 0;
+        if (m_const_power == 0)
+            power = m_max_power * (m_power + 1);
+        else
+            power = m_const_power * m_max_power;
+
+        rigid.gravityScale = 1;
+        rigid.constraints = RigidbodyConstraints2D.None;
+        rigid.AddForce(this.transform.up * power, ForceMode2D.Impulse);
+    }
+}

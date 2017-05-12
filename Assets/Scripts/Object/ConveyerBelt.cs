@@ -14,7 +14,7 @@ public class ConveyerBelt : Objects
 	
 	void Update ()
     {
-        FollowToFinger();
+        FollowToFinger(this.transform);
         RotateObject(this.transform);
         PowerRenewal();
     }
@@ -23,7 +23,7 @@ public class ConveyerBelt : Objects
     {
         if (coll.gameObject.tag != "ball") return;
 
-        float power;
+        float power = 0;
         if (m_const_power == 0)
             power = m_max_power * m_power;
         else
