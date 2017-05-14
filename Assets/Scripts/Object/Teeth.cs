@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class Teeth : Objects
 {
+    public ParticleSystem m_effect;
     public Transform m_direction;
     public float m_spitTime = 1f;
 
     private float m_max_power = 10f;
     [Range(0f, 2f)]
     public float m_const_power = 0;
+
+    private IEnumerator m_spitFunc;
 
     void Start()
     {
@@ -27,7 +30,15 @@ public class Teeth : Objects
     {
         if (coll.tag != "ball") return;
 
-        StartCoroutine(Spit(coll.gameObject, m_spitTime));
+        m_spitFunc = Spit(coll.gameObject, m_spitTime);
+        StartCoroutine(m_spitFunc);
+    }
+
+    void OnTriggerExit2D(Collider2D coll)
+    {
+        if (coll.tag != "ball") return;
+
+        StopCoroutine(m_spitFunc);
     }
 
     /// <summary>
@@ -42,6 +53,7 @@ public class Teeth : Objects
 
         if (rigid == null) yield return null;
 
+        //m_effect.Play();
         _go.transform.position = m_direction.position;
 
         rigid.velocity = Vector2.zero;
@@ -56,6 +68,7 @@ public class Teeth : Objects
         else
             power = m_const_power * m_max_power;
 
+        m_effect.Play();
         rigid.gravityScale = 1;
         rigid.constraints = RigidbodyConstraints2D.None;
         rigid.AddForce(this.transform.up * power, ForceMode2D.Impulse);
