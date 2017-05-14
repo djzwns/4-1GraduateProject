@@ -80,19 +80,19 @@ public class GUIAnimSystem : Singleton<GUIAnimSystem>
         GUIAnimator gui = _trans.GetComponent<GUIAnimator>();
 
         // 움직임
-        if (gui.m_MoveIn.Enable && !gui.m_MoveIn.Began)
+        if (gui.m_MoveIn.Enable && CanAnimationIn(gui.m_MoveIn, gui.m_MoveOut))
         {
             StartCoroutine(MoveIn(gui));
         }
 
         // 페이드
-        if (gui.m_FadeIn.Enable && !gui.m_FadeIn.Began)
+        if (gui.m_FadeIn.Enable && CanAnimationIn(gui.m_FadeIn, gui.m_FadeOut))
         {
             StartCoroutine(FadeIn(gui));
         }
 
         // 스케일
-        if (gui.m_ScaleIn.Enable && !gui.m_ScaleIn.Began)
+        if (gui.m_ScaleIn.Enable && CanAnimationIn(gui.m_ScaleIn, gui.m_ScaleOut))
         {
             StartCoroutine(ScaleIn(gui));
         }
@@ -109,18 +109,18 @@ public class GUIAnimSystem : Singleton<GUIAnimSystem>
         GUIAnimator gui = _trans.GetComponent<GUIAnimator>();
 
         // 움직임
-        if (gui.m_MoveOut.Enable && !gui.m_MoveOut.Began)
+        if (gui.m_MoveOut.Enable && CanAnimationOut(gui.m_MoveIn, gui.m_MoveOut))
         {
             StartCoroutine(MoveOut(gui));
         }
 
         // 페이드
-        if (gui.m_FadeOut.Enable && !gui.m_FadeOut.Began)
+        if (gui.m_FadeOut.Enable && CanAnimationOut(gui.m_FadeIn, gui.m_FadeOut))
         {
         }
 
         // 스케일
-        if (gui.m_ScaleOut.Enable && !gui.m_ScaleOut.Began)
+        if (gui.m_ScaleOut.Enable && CanAnimationOut(gui.m_ScaleIn, gui.m_ScaleOut))
         {
             StartCoroutine(ScaleOut(gui));
         }
@@ -160,6 +160,7 @@ public class GUIAnimSystem : Singleton<GUIAnimSystem>
         // 지연시간 지난 후 실행
         yield return new WaitForSeconds(_gui.m_MoveIn.Delay);
 
+        _gui.m_MoveOut.Ended = false;
         _gui.m_MoveIn.Began = true;
         _gui.m_MoveIn.Ended = false;
 
@@ -182,6 +183,7 @@ public class GUIAnimSystem : Singleton<GUIAnimSystem>
         // 지연시간 지난 후 실행
         yield return new WaitForSeconds(_gui.m_MoveOut.Delay);
 
+        _gui.m_MoveIn.Ended = false;
         _gui.m_MoveOut.Began = true;
         _gui.m_MoveOut.Ended = false;
 
@@ -191,7 +193,7 @@ public class GUIAnimSystem : Singleton<GUIAnimSystem>
             t += Time.deltaTime * m_GUISpeed / _gui.m_MoveOut.Time;
 
             _gui.transform.position = Vector3.Lerp(_gui.m_MoveOut.BeginPos, _gui.m_MoveOut.EndPos, t);
-                        
+
             yield return new WaitForFixedUpdate();
         }
 
@@ -203,6 +205,7 @@ public class GUIAnimSystem : Singleton<GUIAnimSystem>
     {
         yield return new WaitForSeconds(_gui.m_ScaleIn.Delay);
 
+        _gui.m_ScaleOut.Ended = false;
         _gui.m_ScaleIn.Began = true;
         _gui.m_ScaleIn.Ended = false;
 
@@ -212,7 +215,7 @@ public class GUIAnimSystem : Singleton<GUIAnimSystem>
             t += Time.deltaTime * m_GUISpeed / _gui.m_ScaleIn.Time;
 
             _gui.transform.localScale = Vector3.Lerp(_gui.m_ScaleOut.Size, _gui.m_ScaleIn.Size, t);
-            
+
             yield return new WaitForFixedUpdate();
         }
 
@@ -225,6 +228,7 @@ public class GUIAnimSystem : Singleton<GUIAnimSystem>
     {
         yield return new WaitForSeconds(_gui.m_ScaleOut.Delay);
 
+        _gui.m_ScaleIn.Ended = false;
         _gui.m_ScaleOut.Began = true;
         _gui.m_ScaleOut.Ended = false;
 
@@ -234,7 +238,7 @@ public class GUIAnimSystem : Singleton<GUIAnimSystem>
             t += Time.deltaTime * m_GUISpeed / _gui.m_ScaleOut.Time;
 
             _gui.transform.localScale = Vector3.Lerp(_gui.m_ScaleIn.Size, _gui.m_ScaleOut.Size, t);
-            
+
             yield return new WaitForFixedUpdate();
         }
 
@@ -272,5 +276,26 @@ public class GUIAnimSystem : Singleton<GUIAnimSystem>
                 yield return new WaitForFixedUpdate();
             }
         }
+    }
+
+
+    private bool CanAnimationOut(GUIAnimator.cAnim _in, GUIAnimator.cAnim _out)
+    {
+        // 둘다 실행이 안된 상태 - 이미 밖으로 나가있기 때문에 실행 할 필요가 없음
+        if (!_in.Ended && !_out.Ended) return false;
+
+        // 이미 시작한 상태
+        if (_out.Began) return false;
+        if (_out.Ended && !_in.Ended) return false;
+        
+        return true;
+    }
+
+    private bool CanAnimationIn(GUIAnimator.cAnim _in, GUIAnimator.cAnim _out)
+    {
+        if (_in.Began) return false;
+        if (_in.Ended && !_out.Ended) return false;
+
+        return true;
     }
 }

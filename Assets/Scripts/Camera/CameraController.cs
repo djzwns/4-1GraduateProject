@@ -60,7 +60,7 @@ public class CameraController : MonoBehaviour
     {
         m_Camera.orthographicSize = m_MinCamSize;
         Vector3 target = new Vector3(m_Ball.transform.position.x, m_Ball.transform.position.y, transform.position.z);
-        transform.position = Vector3.Lerp(transform.position, target, Time.deltaTime * m_MoveSpeed * 10f);
+        transform.position = Vector3.Lerp(transform.position, target, Time.deltaTime * m_MoveSpeed * 40f);
     }
 
     private bool CanMove()

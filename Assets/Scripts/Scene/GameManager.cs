@@ -9,12 +9,15 @@ public class GameManager : Singleton<GameManager> {
 
     private Ball m_Ball;
     private CameraController m_CamController;
+
+    private GameObject m_SceneController;
     
     void Start()
     {
         m_IsPlaying = false;
         m_Ball = GameObject.Find("ball").GetComponent<Ball>();
         m_CamController = GameObject.FindObjectOfType<CameraController>();
+        m_SceneController = GameObject.Find("-- SceneController --");
     }
 
     // 다시시작, 클리어시 스테이지 이동 구현
@@ -24,6 +27,10 @@ public class GameManager : Singleton<GameManager> {
     public void StopGame()
     {
         m_Ball.Stop();
+    }
+
+    public void PauseGame()
+    {
         m_IsPause = !m_IsPause;
     }
 
@@ -35,6 +42,7 @@ public class GameManager : Singleton<GameManager> {
             ResetGame();
             return;
         }
+        m_SceneController.SendMessage("HideAllGUIs");
         m_IsPlaying = true;
         m_IsPause = false;
         m_Ball.Active();

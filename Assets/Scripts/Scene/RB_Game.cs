@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class RB_Game : MonoBehaviour {
 
-    bool m_BoxOpen;
+    bool m_ObjectBoxOpen;
     bool m_PauseBoxOpen;
     public GUIAnimator m_ObjectBox;
     public GUIAnimator m_OpenButton;
@@ -18,7 +18,7 @@ public class RB_Game : MonoBehaviour {
 
     void Awake()
     {
-        m_BoxOpen = false;
+        m_ObjectBoxOpen = false;
         m_PauseBoxOpen = false;
 
         BGMManager.Instance.BGMChange(-1);
@@ -27,11 +27,13 @@ public class RB_Game : MonoBehaviour {
     // 오브젝트 박스 토글
     public void ToggleObjectBox()
     {
-        m_BoxOpen = !m_BoxOpen;
-        if (m_BoxOpen == true)
+        if (GameManager.Instance.m_IsPlaying) return;
+
+        m_ObjectBoxOpen = !m_ObjectBoxOpen;
+        if (m_ObjectBoxOpen == true)
         {
-            m_OpenButton.MoveIn();
-            m_ObjectBox.MoveIn();
+                m_OpenButton.MoveIn();
+                m_ObjectBox.MoveIn();
         }
 
         else
@@ -57,7 +59,7 @@ public class RB_Game : MonoBehaviour {
         {
             m_PauseBox.MoveOut();
         }
-
+        GameManager.Instance.PauseGame();
         if (!StageManager.Instance.m_IsClear)
             StartCoroutine(DisableButtonForSeconds(m_PauseButton.gameObject, 0.5f));
         else
@@ -100,7 +102,10 @@ public class RB_Game : MonoBehaviour {
     // UI 숨김
     public void HideAllGUIs()
     {
+        m_ObjectBoxOpen = false;
+        m_PauseBoxOpen = false;
         m_PauseBox.MoveOut();
+        m_OpenButton.MoveOut();
         m_ObjectBox.MoveOut();
     }
 
