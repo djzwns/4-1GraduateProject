@@ -72,7 +72,7 @@ public class Teeth : Objects
 
         m_effect.Play();
         BGMManager.Instance.PlaySound(m_effectSound);
-        rigid.gravityScale = 1;
+        rigid.gravityScale = 1.2f;
         rigid.constraints = RigidbodyConstraints2D.None;
         rigid.AddForce(this.transform.up * power, ForceMode2D.Impulse);
     }

@@ -21,7 +21,7 @@ public class Ball : MonoBehaviour
 
     public void Active()
     {
-        m_Ball.gravityScale = 1f;
+        m_Ball.gravityScale = 1.2f;
         m_Ball.constraints = RigidbodyConstraints2D.None;
     }
 
