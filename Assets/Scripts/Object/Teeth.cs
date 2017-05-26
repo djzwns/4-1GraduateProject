@@ -17,17 +17,19 @@ public class Teeth : Objects
     void Start()
     {
         m_PowerEnable = true;
+        m_rotateObject = this.transform;
     }
 
     void Update()
     {
         FollowToFinger(this.transform);
-        RotateObject(this.transform);
+        RotateObject(m_rotateObject);
         PowerRenewal();
     }
 
     void OnTriggerEnter2D(Collider2D coll)
     {
+        if (!GameManager.Instance.m_IsPlaying) return;
         if (coll.tag != "ball") return;
 
         m_spitFunc = Spit(coll.gameObject, m_spitTime);
@@ -36,9 +38,8 @@ public class Teeth : Objects
 
     void OnTriggerExit2D(Collider2D coll)
     {
-        if (coll.tag != "ball") return;
-
-        StopCoroutine(m_spitFunc);
+        if(coll.tag == "ball" && m_spitFunc != null)
+            StopCoroutine(m_spitFunc);
     }
 
     /// <summary>
@@ -54,6 +55,7 @@ public class Teeth : Objects
         if (rigid == null) yield return null;
 
         //m_effect.Play();
+        BGMManager.Instance.PlaySound(m_effectSound);
         _go.transform.position = m_direction.position;
 
         rigid.velocity = Vector2.zero;
@@ -69,6 +71,7 @@ public class Teeth : Objects
             power = m_const_power * m_max_power;
 
         m_effect.Play();
+        BGMManager.Instance.PlaySound(m_effectSound);
         rigid.gravityScale = 1;
         rigid.constraints = RigidbodyConstraints2D.None;
         rigid.AddForce(this.transform.up * power, ForceMode2D.Impulse);

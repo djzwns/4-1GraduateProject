@@ -10,25 +10,27 @@ public class ConveyerBelt : Objects
 
     void Start () {
         m_PowerEnable = true;
-	}
+        m_rotateObject = this.transform;
+    }
 	
 	void Update ()
     {
         FollowToFinger(this.transform);
-        RotateObject(this.transform);
+        RotateObject(m_rotateObject);
         PowerRenewal();
     }
 
     void OnCollisionStay2D(Collision2D coll)
     {
-        if (coll.gameObject.tag != "ball") return;
+        if (CanActive(coll))
+        {
+            float power = 0;
+            if (m_const_power == 0)
+                power = m_max_power * m_power;
+            else
+                power = m_const_power;
 
-        float power = 0;
-        if (m_const_power == 0)
-            power = m_max_power * m_power;
-        else
-            power = m_const_power;
-
-        coll.rigidbody.AddForce(transform.right * power, ForceMode2D.Force);
+            coll.rigidbody.AddForce(transform.right * power, ForceMode2D.Force);
+        }
     }
 }

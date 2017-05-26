@@ -22,12 +22,12 @@ public class StageManager : Singleton<StageManager>
         m_GameObjectList = new List<GameObject>();
     }
 
-    public void NextStage()
+    public bool NextStage()
     {
         string nextStage = StageInformation.GetNextStage();
 
         // 마지막 맵이면 아무것도 ..
-        if (nextStage.Equals("end")) return;
+        if (nextStage.Equals("end")) return false;
         m_IsClear = false;
 
         GameObject destroyObject = m_Map;
@@ -35,6 +35,8 @@ public class StageManager : Singleton<StageManager>
         Destroy(destroyObject);
 
         m_Map = m_stageCreator.Create(nextStage);
+
+        return true;
     }
 
     public void Save()

@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class Star : MonoBehaviour
 {
+    public AudioClip m_effectSound;
+    private GameObject m_sceneController;
+
+    void Start()
+    {
+        m_sceneController = GameObject.Find("-- SceneController --");
+    }
 
     void OnTriggerEnter2D(Collider2D coll)
     {
@@ -13,7 +20,9 @@ public class Star : MonoBehaviour
         //Destroy(this.gameObject);
         StartCoroutine(StageManager.Instance.EnableGameObject(gameObject, false));
         // 먹을때 사운드 추가
+        BGMManager.Instance.PlaySound(m_effectSound);
         // 점수 관련 추가( 별 갯수 증가, 점수 등등.. )
+        m_sceneController.SendMessage("AddStar");
         // 맵 정보상에서 먹은거로 표시해서 
         // 다음에 다시 플레이 하더라도 생성되지 않도록
         // 데이터 수정.        

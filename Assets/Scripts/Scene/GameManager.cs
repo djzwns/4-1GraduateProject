@@ -59,6 +59,7 @@ public class GameManager : Singleton<GameManager> {
         StageManager.Instance.ResetStageObject();
         m_Ball.Reset();
         m_CamController.ResetPosition(m_Ball.transform);
+        m_SceneController.SendMessage("DefaultStar");
     }
 
     /// <summary>

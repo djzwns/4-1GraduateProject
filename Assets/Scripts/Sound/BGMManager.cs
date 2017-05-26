@@ -58,10 +58,15 @@ public class BGMManager : MonoBehaviour
         m_audioSource[0].Play();
     }
 
-    void PlayOneShot(AudioClip _audioClip)
+    public void PlayOneShot(AudioClip _audioClip)
     {
         if(m_audioSource[1].isPlaying == false)
             m_audioSource[1].PlayOneShot(_audioClip);
+    }
+
+    public void PlaySound(AudioClip _audioClip)
+    {
+        m_audioSource[1].PlayOneShot(_audioClip);
     }
 
     public void PlaySoundButton()

@@ -214,7 +214,7 @@ public class GUIAnimSystem : Singleton<GUIAnimSystem>
         {
             t += Time.deltaTime * m_GUISpeed / _gui.m_ScaleIn.Time;
 
-            _gui.transform.localScale = Vector3.Lerp(_gui.m_ScaleOut.Size, _gui.m_ScaleIn.Size, t);
+            _gui.transform.localScale = Vector3.Lerp(_gui.m_ScaleIn.Size, _gui.m_ScaleOriginal, t);
 
             yield return new WaitForFixedUpdate();
         }
@@ -237,7 +237,7 @@ public class GUIAnimSystem : Singleton<GUIAnimSystem>
         {
             t += Time.deltaTime * m_GUISpeed / _gui.m_ScaleOut.Time;
 
-            _gui.transform.localScale = Vector3.Lerp(_gui.m_ScaleIn.Size, _gui.m_ScaleOut.Size, t);
+            _gui.transform.localScale = Vector3.Lerp(_gui.m_ScaleOriginal, _gui.m_ScaleOut.Size, t);
 
             yield return new WaitForFixedUpdate();
         }

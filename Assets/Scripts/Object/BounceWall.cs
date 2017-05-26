@@ -10,27 +10,29 @@ public class BounceWall : Objects
     void Start()
     {
         m_PowerEnable = false;
+        m_rotateObject = this.transform;
     }
 
     void Update()
     {
         FollowToFinger(this.transform);
-        RotateObject(this.transform);
+        RotateObject(m_rotateObject);
     }
 
     void OnCollisionEnter2D(Collision2D coll)
     {
-        if (coll.gameObject.tag != "ball") return;
+        if (CanActive(coll))
+        {
+            coll.rigidbody.AddForce(coll.relativeVelocity * -0.1f);
+            BGMManager.Instance.PlaySound(m_effectSound);
 
-        coll.rigidbody.AddForce(coll.relativeVelocity * -0.1f);
-
-        m_anim.SetBool("play", true);
+            m_anim.SetBool("play", true);
+        }
     }
 
     void OnCollisionExit2D(Collision2D coll)
     {
-        if (coll.gameObject.tag != "ball") return;
-
-        m_anim.SetBool("play", false);
+        if (CanActive(coll))
+            m_anim.SetBool("play", false);
     }
 }

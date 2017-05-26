@@ -135,6 +135,9 @@ public class GUIAnimator : MonoBehaviour {
         if (m_ScaleOut.Enable)
         {
         }
+
+        if (m_ScaleIn.ScaleFrom == eScale.Zero)
+            this.transform.localScale = Vector3.zero;
     }
 
 
@@ -189,6 +192,12 @@ public class GUIAnimator : MonoBehaviour {
         BottomScreenEdge    = 5
     }
 
+    public enum eScale
+    {
+        None = 0,
+        Zero = 1
+    }
+
     #endregion //Enumeration
 
     #region Animation Class
@@ -241,12 +250,14 @@ public class GUIAnimator : MonoBehaviour {
     public class cScaleIn : cAnim
     {
         public Vector3 Size;
+        public eScale ScaleFrom;
     }
 
     [System.Serializable]
     public class cScaleOut : cAnim
     {
         public Vector3 Size;
+        public eScale ScaleTo;
     }
 
     [System.Serializable]

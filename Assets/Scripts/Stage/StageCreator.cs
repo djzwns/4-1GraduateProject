@@ -13,6 +13,7 @@ public class StageCreator : MonoBehaviour {
     {
         GameObject map = Instantiate(Resources.Load("Prefabs/Stage/" + _stageName), Vector3.zero, Quaternion.identity) as GameObject;
 
+        if (map == null) return null;
         return map;
     }
 }

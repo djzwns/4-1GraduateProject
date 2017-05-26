@@ -33,7 +33,7 @@ public static class StageInformation
     {
         if (m_stageNum + 1 > m_stageName.Length) return "end";
 
-        return m_stageName[m_stageNum + 1];
+        return m_stageName[++m_stageNum];
     }
 
     /// <summary>
@@ -45,7 +45,7 @@ public static class StageInformation
         if (m_lastStage != m_stageNum) return false;
         if (m_lastStage > m_stageNum) return false;
 
-        m_lastStage = ++m_stageNum;
+        m_lastStage = m_stageNum + 1;
         return true;
     }
 }

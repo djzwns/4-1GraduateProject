@@ -12,15 +12,18 @@ public class RB_Game : MonoBehaviour {
     public GUIAnimator m_PauseBox;
     public GUIAnimator m_PauseButton;
     public GameObject[] m_Next_ResetButton;
-    public Text m_PauseBoxLabel;
+    public Image m_Window;
+    public Sprite[] m_Windows;
+    //public Text m_PauseBoxLabel;
 
     public GUIAnimator m_WasteBasket;
+    public GUIAnimator[] m_Star;
+    private int m_starCount = 0;
 
     void Awake()
     {
         m_ObjectBoxOpen = false;
         m_PauseBoxOpen = false;
-
         BGMManager.Instance.BGMChange(-1);
     }
 
@@ -72,13 +75,15 @@ public class RB_Game : MonoBehaviour {
         {
             m_Next_ResetButton[0].SetActive(false);
             m_Next_ResetButton[1].SetActive(true);
-            m_PauseBoxLabel.text = "CLEAR !!";
+            //m_PauseBoxLabel.text = "CLEAR !!";
+            m_Window.sprite = m_Windows[1];
         }
         else
         {
             m_Next_ResetButton[1].SetActive(false);
             m_Next_ResetButton[0].SetActive(true);
-            m_PauseBoxLabel.text = StageInformation.GetCurrentStage();
+            m_Window.sprite = m_Windows[0];
+            //m_PauseBoxLabel.text = StageInformation.GetCurrentStage();
         }
     }
 
@@ -90,13 +95,15 @@ public class RB_Game : MonoBehaviour {
         m_PauseBox.MoveOut();
         GameManager.Instance.ResetGame();
         GameManager.Instance.ObjectsDestroy();
+        DefaultStar();
     }
 
     // 다음맵
     public void NextGame()
     {
-        StageManager.Instance.NextStage();
+        if (!StageManager.Instance.NextStage()) return;
         Reset();
+        EnableButton(m_PauseButton.gameObject, true);
     }
 
     // UI 숨김
@@ -131,5 +138,23 @@ public class RB_Game : MonoBehaviour {
     public void BasketOff()
     {
         m_WasteBasket.MoveOut();
+    }
+
+    /// <summary>
+    /// 좌측 상단 별 추가
+    /// </summary>
+    public void AddStar()
+    {
+        if (m_starCount > 2) return;
+        m_Star[m_starCount++].MoveIn();
+    }
+
+    public void DefaultStar()
+    {
+        for (int i = m_starCount - 1; i >= 0; --i)
+        {
+            m_Star[i].MoveOut();
+        }
+        m_starCount = 0;
     }
 }

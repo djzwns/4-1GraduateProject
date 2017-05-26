@@ -129,6 +129,7 @@ public class TouchEvent : Singleton<TouchEvent>
 
         m_Touched.GetComponent<Objects>().CanMove(false);
         if (OnUITouchPosition(m_WasteUI)) Destroy(m_Touched);
+        m_WasteUI.localScale = Vector3.one;
         m_Touched = null;
         m_IsMoved = false;
     }
@@ -157,7 +158,17 @@ public class TouchEvent : Singleton<TouchEvent>
     /// </summary>
     private void TouchMoved()
     {
-        if (m_IsMoved) return;
+        if (OnUITouchPosition(m_WasteUI))
+            m_WasteUI.localScale = Vector3.one * 1.2f;
+        else
+            m_WasteUI.localScale = Vector3.one;
+
+
+        if (m_IsMoved)
+        {
+            SendMessage("BasketOn");
+            return;
+        }
 
         m_CamController.Move(TouchDeltaPosition());
     }
@@ -222,11 +233,15 @@ public class TouchEvent : Singleton<TouchEvent>
     /// <returns></returns>
     private bool OnUITouchPosition(Transform _ui)
     {
+        if (m_Touched == null) return false;
         RectTransform rect = _ui.GetComponent<RectTransform>();
 
         if (rect == null) return false;
 
-        bool result = RectTransformUtility.RectangleContainsScreenPoint(rect, Input.GetTouch(0).position);
+        Vector2 transPosition = m_Touched.transform.position;
+        Vector2 transformWorldToScreenPos = m_Camera.WorldToScreenPoint(transPosition);
+
+        bool result = RectTransformUtility.RectangleContainsScreenPoint(rect, transformWorldToScreenPos);
         
         return result;
     }

@@ -8,8 +8,7 @@ public class Fan : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D coll)
     {
-        if (coll.tag != "ball") return;
-
-        m_body.Blow(coll.gameObject);
+        if(m_body.CanActive(coll))
+            m_body.Blow(coll.gameObject);
     }
 }

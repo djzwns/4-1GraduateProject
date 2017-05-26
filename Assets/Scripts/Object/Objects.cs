@@ -4,12 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Collider2D))]
-public class Objects : MonoBehaviour {
+public class Objects : MonoBehaviour
+{
+    public AudioClip m_effectSound;
 
     public bool m_UIEnable;
     [HideInInspector]
     public bool m_PowerEnable;
     private bool m_CanMove      = false;
+    private Vector3 m_size;
+    protected Transform m_rotateObject;
 
     protected float m_power;
     protected Slider m_PowerBar;
@@ -18,12 +22,14 @@ public class Objects : MonoBehaviour {
     void Awake()
     {
         m_PowerEnable = false;
+        m_size = this.transform.localScale;
+        m_rotateObject = this.transform;
     }
 
 	void Update () {
         FollowToFinger(this.transform);
 
-        RotateObject(this.transform);
+        RotateObject(m_rotateObject);
 	}
 
     /// <summary>
@@ -36,12 +42,32 @@ public class Objects : MonoBehaviour {
         Vector2 touchPos = Input.GetTouch(0).position;
         Vector2 worldPos = Camera.main.ScreenToWorldPoint(touchPos);
 
-        _trans.position = worldPos;
+        _trans.position = worldPos + Vector2.up * 3f;
     }
 
     public void CanMove(bool _move)
     {
         m_CanMove = _move;
+        PickUp(m_CanMove);
+    }
+
+    private void PickUp(bool _pick)
+    {
+        if (_pick)
+        {
+            //float t = 0;
+            //while (t <= 1)
+            //{
+            //    t += Time.deltaTime / 0.5f;
+            //    this.transform.localScale = Vector3.Lerp(m_size, m_size * 1.2f, t);
+            //    yield return new WaitForFixedUpdate();
+            //}
+            this.transform.localScale = m_size * 1.3f;
+        }
+        else
+        {
+            this.transform.localScale = m_size;
+        }
     }
 
     /// <summary>
@@ -68,6 +94,7 @@ public class Objects : MonoBehaviour {
     /// </summary>
     public void SetSlider(Slider _power = null, Slider _rotate = null)
     {
+        if (GameManager.Instance.m_IsPlaying) return;
         SetPowerBar(_power);
         SetRotateBar(_rotate);
     }
@@ -84,11 +111,25 @@ public class Objects : MonoBehaviour {
     {
         m_RotateBar = _rotate;
         if (_rotate == null) return;
-        float angle_z = transform.localEulerAngles.z;
+        float angle_z = m_rotateObject.localEulerAngles.z;
 
         if (angle_z >= 270f) angle_z -= 360f;
 
         m_RotateBar.value = -angle_z;
+    }
+
+    protected bool CanActive(Collision2D coll)
+    {
+        if (!GameManager.Instance.m_IsPlaying) return false;
+        if (coll.gameObject.tag != "ball") return false;
+        return true;
+    }
+
+    public bool CanActive(Collider2D coll)
+    {
+        if (coll.tag != "ball") return false;
+        if (!GameManager.Instance.m_IsPlaying) return false;
+        return true;
     }
 
     #endregion // UI_Control
