@@ -37,13 +37,15 @@ public class SoundControl : MonoBehaviour
 
         // 데이터 불러오기
         value = PlayerPrefs.GetFloat(m_sound[_index], m_bgm.GetAudioVolume(_index));
-
-        // 불러온 값을 슬라이더에 적용
-        m_SoundBars[_index].value = (int)(value * 10f);
-
+        
         // bgm 매니저를 통해 볼륨 조절
         m_bgm.SetAudioVolume(_index, value);
 
+        if (m_SoundBars[0] == null) return;
+
+        // 불러온 값을 슬라이더에 적용
+        m_SoundBars[_index].value = (int)(value * 10f);
+        
         // 슬라이더에 콜백함수 등록
         m_SoundBars[_index].onValueChanged.AddListener(delegate { ValueChanged(_index); });
 
