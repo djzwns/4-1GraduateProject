@@ -11,6 +11,7 @@ public class GameManager : Singleton<GameManager> {
     private CameraController m_CamController;
 
     private GameObject m_SceneController;
+    public StageTimer m_stageTimer;
     
     void Start()
     {
@@ -18,6 +19,7 @@ public class GameManager : Singleton<GameManager> {
         m_Ball = GameObject.Find("ball").GetComponent<Ball>();
         m_CamController = GameObject.FindObjectOfType<CameraController>();
         m_SceneController = GameObject.Find("-- SceneController --");
+        m_stageTimer.timeout_callback += ResetGame;
     }
 
     // 다시시작, 클리어시 스테이지 이동 구현
@@ -42,6 +44,7 @@ public class GameManager : Singleton<GameManager> {
             ResetGame();
             return;
         }
+        m_stageTimer.SetActive(true);
         m_SceneController.SendMessage("HideAllGUIs");
         m_IsPlaying = true;
         m_IsPause = false;
@@ -60,6 +63,7 @@ public class GameManager : Singleton<GameManager> {
         m_Ball.Reset();
         m_CamController.ResetPosition(m_Ball.transform);
         m_SceneController.SendMessage("DefaultStar");
+        m_stageTimer.SetActive(false);
     }
 
     /// <summary>

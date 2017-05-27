@@ -2,7 +2,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RB_Game : MonoBehaviour {
+public class RB_Game : MonoBehaviour
+{
+    public StageTimer m_stageTimer;
 
     bool m_ObjectBoxOpen;
     bool m_PauseBoxOpen;
@@ -26,6 +28,11 @@ public class RB_Game : MonoBehaviour {
         m_ObjectBoxOpen = false;
         m_PauseBoxOpen = false;
         BGMManager.Instance.BGMChange(-1);
+    }
+
+    void Start()
+    {
+        m_stageTimer.timeout_callback += TogglePauseBox;
     }
 
     // 오브젝트 박스 토글
@@ -79,6 +86,7 @@ public class RB_Game : MonoBehaviour {
             //m_PauseBoxLabel.text = "CLEAR !!";
             m_Window.sprite = m_Windows[1];
             m_SoundController.SetActive(false);
+            m_stageTimer.SetActive(false);
         }
         else
         {

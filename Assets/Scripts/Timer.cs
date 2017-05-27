@@ -54,4 +54,13 @@ public class Timer
     {
         return m_limitTime - m_elapsedTime;
     }
+
+    /// <summary>
+    /// 제한 시간 재설정
+    /// </summary>
+    /// <param name="_time"></param>
+    public void SetLimitTime(float _time)
+    {
+        m_limitTime = _time;
+    }
 }

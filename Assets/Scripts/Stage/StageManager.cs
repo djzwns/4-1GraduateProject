@@ -18,13 +18,13 @@ public class StageManager : Singleton<StageManager>
     {
         m_stageCreator = gameObject.AddComponent<StageCreator>();
         // 스테이지 생성
-        m_Map = m_stageCreator.Create(StageInformation.GetCurrentStage());
+        m_Map = m_stageCreator.Create(StageInformation.Instance.GetCurrentStage());
         m_GameObjectList = new List<GameObject>();
     }
 
     public bool NextStage()
     {
-        string nextStage = StageInformation.GetNextStage();
+        string nextStage = StageInformation.Instance.GetNextStage();
 
         // 마지막 맵이면 아무것도 ..
         if (nextStage.Equals("end")) return false;
@@ -41,7 +41,7 @@ public class StageManager : Singleton<StageManager>
 
     public void Save()
     {
-        if (StageInformation.RenewalStage())
+        if (StageInformation.Instance.RenewalStage())
             PlayerPrefs.SetInt("RB_LastStage", StageInformation.m_lastStage);
     }
 
