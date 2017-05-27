@@ -14,6 +14,7 @@ public class RB_Game : MonoBehaviour {
     public GameObject[] m_Next_ResetButton;
     public Image m_Window;
     public Sprite[] m_Windows;
+    public GameObject m_SoundController;
     //public Text m_PauseBoxLabel;
 
     public GUIAnimator m_WasteBasket;
@@ -77,12 +78,14 @@ public class RB_Game : MonoBehaviour {
             m_Next_ResetButton[1].SetActive(true);
             //m_PauseBoxLabel.text = "CLEAR !!";
             m_Window.sprite = m_Windows[1];
+            m_SoundController.SetActive(false);
         }
         else
         {
             m_Next_ResetButton[1].SetActive(false);
             m_Next_ResetButton[0].SetActive(true);
             m_Window.sprite = m_Windows[0];
+            m_SoundController.SetActive(true);
             //m_PauseBoxLabel.text = StageInformation.GetCurrentStage();
         }
     }

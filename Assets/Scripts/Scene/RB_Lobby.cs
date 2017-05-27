@@ -8,8 +8,9 @@ public class RB_Lobby : MonoBehaviour
     static int m_mute = 0;
     public Sprite[] m_mute_image;
     public GUIAnimator m_Setting;
-    public GUIAnimator m_Music;
-    public GUIAnimator m_Skin;
+    public GUIAnimator m_PauseWindow;
+    //public GUIAnimator m_Music;
+    //public GUIAnimator m_Skin;
 
     public GUIAnimator[] m_Map;
 
@@ -25,9 +26,9 @@ public class RB_Lobby : MonoBehaviour
         StageInformation.m_lastStage = PlayerPrefs.GetInt("RB_LastStage", 0);
         BGMManager.Instance.BGMChange(-1);
 
-        GUIAnimSystem.Instance.ButtonAddEvents(m_Music.transform, BGMManager.Instance.ToggleMute);
-        GUIAnimSystem.Instance.ButtonAddEvents(m_Music.transform, ToggleMute);
-        MuteImageChange(m_Music.GetComponent<Image>());
+        //GUIAnimSystem.Instance.ButtonAddEvents(m_Music.transform, BGMManager.Instance.ToggleMute);
+        //GUIAnimSystem.Instance.ButtonAddEvents(m_Music.transform, ToggleMute);
+        //MuteImageChange(m_Music.GetComponent<Image>());
 
         InteractableMapButton(StageInformation.m_lastStage);
     }
@@ -51,13 +52,15 @@ public class RB_Lobby : MonoBehaviour
         m_SettingOn = !m_SettingOn;
         if (m_SettingOn)
         {
-            m_Music.MoveIn();
-            m_Skin.MoveIn();
+            m_PauseWindow.MoveIn();
+            //m_Music.MoveIn();
+            //m_Skin.MoveIn();
         }
         else
         {
-            m_Music.MoveOut();
-            m_Skin.MoveOut();
+            m_PauseWindow.MoveOut();
+            //m_Music.MoveOut();
+            //m_Skin.MoveOut();
         }
 
         StartCoroutine(DisableButtonForSeconds(m_Setting.gameObject, 0.5f));
@@ -68,9 +71,9 @@ public class RB_Lobby : MonoBehaviour
     /// </summary>
     public void ToggleMute()
     {
-        Image btn = m_Music.GetComponent<Image>();
-        m_mute = ++m_mute % 2;
-        MuteImageChange(btn);
+        //Image btn = m_Music.GetComponent<Image>();
+        //m_mute = ++m_mute % 2;
+        //MuteImageChange(btn);
     }
 
     private void MuteImageChange(Image _btn)

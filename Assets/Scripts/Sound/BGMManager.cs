@@ -25,6 +25,16 @@ public class BGMManager : MonoBehaviour
 
     public int m_audioSourceCount = 2;
     private AudioSource[] m_audioSource;
+    public float GetAudioVolume(int _index)
+    {
+        if (_index >= m_audioSourceCount) return 1;
+        return m_audioSource[_index].volume;
+    }
+    public void SetAudioVolume(int _index, float _value)
+    {
+        if (_index >= m_audioSourceCount) return;
+        m_audioSource[_index].volume = _value;
+    }
 
     public AudioClip m_button_clip;
     public AudioClip[] m_bgm_clip;
@@ -36,7 +46,7 @@ public class BGMManager : MonoBehaviour
         GUIAnimSystem.Instance.AllButtonAddEvents(PlaySoundButton);
     }
 
-    void Start()
+    void Awake()
     {
         GUIAnimSystem.Instance.AllButtonAddEvents(PlaySoundButton);
         DontDestroyOnLoad(gameObject);
