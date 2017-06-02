@@ -23,7 +23,7 @@ public class RB_Lobby : MonoBehaviour
     {
         m_lastPage = m_ScollSnap.m_currentPage;
         m_Map[m_lastPage].MoveIn();
-        StageInformation.m_lastStage = PlayerPrefs.GetInt("RB_LastStage", 0);
+        StageInformation.Load();
         BGMManager.Instance.BGMChange(-1);
 
         //GUIAnimSystem.Instance.ButtonAddEvents(m_Music.transform, BGMManager.Instance.ToggleMute);

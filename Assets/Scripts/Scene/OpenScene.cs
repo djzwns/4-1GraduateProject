@@ -17,8 +17,8 @@ public class OpenScene : MonoBehaviour {
     }
 
     public void ButtonOpenGame(int _stageNum)
-    {// 이거 수정해야함 땜빵코드 ㅂ ㄷㅂㄷ ㅂㄷ _stageNum != 0 마음에 안들음
-        if (_stageNum != 0 && StageInformation.m_lastStage <= _stageNum) return;
+    {
+        if (!StageInformation.CanPlay(_stageNum)) return;
 
         StageInformation.m_stageNum = _stageNum;
 

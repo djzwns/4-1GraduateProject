@@ -39,8 +39,8 @@ public class DestinationFlag : MonoBehaviour
             m_str = "CLEAR!!";
             // 클리어 부분 추가...
             StageManager.Instance.m_IsClear = true;
-            StageManager.Instance.Save();
             GameManager.Instance.StopGame();
+            StageManager.Instance.Save();
             // 다음 스테이지 갈지말지..?
             GameObject.FindObjectOfType<RB_Game>().TogglePauseBox();
         }

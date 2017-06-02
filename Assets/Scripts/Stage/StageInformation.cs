@@ -1,60 +1,16 @@
-﻿/// <summary>
+﻿using UnityEngine;
+
+/// <summary>
 /// 스테이지의 정보를 전달 하기 위한 클래스
 /// </summary>
-
-//public static class StageInformation
-//{
-//    private static string[] m_stageName =
-//        {
-//        "Tutorial-1", "Tutorial-2", "Tutorial-3",
-//        "stage1-1", "stage1-2", "stage1-3",
-//        "stage2-1", "stage2-2", "stage2-3",
-//        "stage3-1", "stage3-2", "stage3-3",
-//        "stage4-1", "stage4-2", "stage4-3",
-//    };
-
-//    public static int m_stageNum;
-//    public static int m_lastStage;
-
-//    /// <summary>
-//    /// 현재 스테이지.
-//    /// </summary>
-//    /// <returns></returns>
-//    public static string GetCurrentStage()
-//    {
-//        return m_stageName[m_stageNum];
-//    }
-
-//    /// <summary>
-//    /// 다음 스테이지 이름
-//    /// </summary>
-//    /// <returns></returns>
-//    public static string GetNextStage()
-//    {
-//        if (m_stageNum + 1 > m_stageName.Length) return "end";
-
-//        return m_stageName[++m_stageNum];
-//    }
-
-//    /// <summary>
-//    /// 최종 스테이지 갱신
-//    /// </summary>
-//    /// <returns></returns>
-//    public static bool RenewalStage()
-//    {
-//        if (m_lastStage != m_stageNum) return false;
-//        if (m_lastStage > m_stageNum) return false;
-
-//        m_lastStage = m_stageNum + 1;
-//        return true;
-//    }
-//}
-
-using UnityEngine;
 
 public class StageInformation : Singleton<StageInformation>
 {
     public Stage[] m_stage;
+    public void SetStage(Stage _stage)
+    {
+        m_stage[m_stageNum] = _stage;
+    }
 
     public static int m_stageNum;
     public static int m_lastStage;
@@ -97,10 +53,51 @@ public class StageInformation : Singleton<StageInformation>
         return true;
     }
 
+    public static bool CanPlay(int _stageNum)
+    {
+        if (m_lastStage < _stageNum) return false;
+
+        return true;
+    }
+
     [System.Serializable]
     public class Stage
     {
         public string name;
         public float limitedTime;
+        public Star[] star;
+    }
+
+    [System.Serializable]
+    public class Star
+    {
+        public Vector3 position;
+        [HideInInspector]public bool ateThis;
+    }
+
+    /// <summary>
+    /// 스테이지 정보 불러오기
+    /// </summary>
+    /// <param name="_fileName"></param>
+    public static Stage LoadStageInfo(string _fileName)
+    {
+        string json = FileReadWrite.Read(_fileName);
+
+        if (json == null) { return null; }
+
+        Stage stage_data;
+        stage_data = JsonUtility.FromJson<Stage>(json);
+
+        return stage_data;
+    }
+
+    public static void Save()
+    {
+        PlayerPrefs.SetInt("RB_LastStage", m_lastStage);
+    }
+
+    public static void Load()
+    {
+        m_lastStage = PlayerPrefs.GetInt("RB_LastStage", 0);
     }
 }
