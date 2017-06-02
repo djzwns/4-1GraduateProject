@@ -1,22 +1,14 @@
 {
-    "name": "Tutorial-1",
-    "limitedTime": 10.0,
+    "name": "Tutorial-2",
+    "limitedTime": 100.0,
     "star": [
         {
             "position": {
-                "x": 7.789999961853027,
-                "y": -4.730000019073486,
+                "x": 4.44,
+                "y": -3.19,
                 "z": 0.0
             },
             "ateThis": false
-        },
-        {
-            "position": {
-                "x": 7.789999961853027,
-                "y": -4.730000019073486,
-                "z": 0.0
-            },
-            "ateThis": true
         }
     ]
 }

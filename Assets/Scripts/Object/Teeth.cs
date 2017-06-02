@@ -6,6 +6,7 @@ public class Teeth : Objects
 {
     public ParticleSystem m_effect;
     public Transform m_direction;
+    public Transform[] m_teeth;
     public float m_spitTime = 1f;
 
     private float m_max_power = 10f;
@@ -38,8 +39,11 @@ public class Teeth : Objects
 
     void OnTriggerExit2D(Collider2D coll)
     {
-        if(coll.tag == "ball" && m_spitFunc != null)
+        if (coll.tag == "ball" && m_spitFunc != null)
+        {
+            spit(m_spitTime);
             StopCoroutine(m_spitFunc);
+        }
     }
 
     /// <summary>
@@ -62,18 +66,61 @@ public class Teeth : Objects
         rigid.gravityScale = 0;
         rigid.constraints = RigidbodyConstraints2D.FreezeAll;
 
+        bite(_time);
+
         yield return new WaitForSeconds(_time);
 
+        spit(_time);
+
+        m_effect.Play();
+        BGMManager.Instance.PlaySound(m_effectSound);
+        rigid.gravityScale = 1.2f;
+        rigid.constraints = RigidbodyConstraints2D.None;
+        rigid.AddForce(this.transform.up * GetPower(), ForceMode2D.Impulse);
+    }
+
+    private void bite(float _time)
+    {
+        Quaternion target;
+
+        target = Quaternion.Euler(-40, 90, -90);
+        StartCoroutine(bite_spitCoroutine(m_teeth[0], _time * 0.125f, target));
+
+        target = Quaternion.Euler(-40, -90, 90);
+        StartCoroutine(bite_spitCoroutine(m_teeth[1], _time * 0.125f, target));
+    }
+
+    private void spit(float _time)
+    {
+        Quaternion target;
+
+        target = Quaternion.Euler(-90, 0, 0);
+        StartCoroutine(bite_spitCoroutine(m_teeth[0], _time * 0.05f, target));
+        StartCoroutine(bite_spitCoroutine(m_teeth[1], _time * 0.05f, target));
+    }
+
+    // 수정 필요.
+    private IEnumerator bite_spitCoroutine(Transform _transform, float _time, Quaternion _target)
+    {
+        Quaternion original = _transform.rotation;
+
+        float time = 0;
+        while (time <= 1)
+        {
+            time += Time.deltaTime / _time;
+            _transform.rotation = Quaternion.Lerp(original, _target, time);
+            yield return new WaitForFixedUpdate();
+        }
+    }
+
+    private float GetPower()
+    {
         float power = 0;
         if (m_const_power == 0)
             power = m_max_power * (m_power + 1);
         else
             power = m_const_power * m_max_power;
 
-        m_effect.Play();
-        BGMManager.Instance.PlaySound(m_effectSound);
-        rigid.gravityScale = 1.2f;
-        rigid.constraints = RigidbodyConstraints2D.None;
-        rigid.AddForce(this.transform.up * power, ForceMode2D.Impulse);
+        return power;
     }
 }

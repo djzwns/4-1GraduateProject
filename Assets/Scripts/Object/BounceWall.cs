@@ -7,6 +7,8 @@ public class BounceWall : Objects
     
     public Animator m_anim;
 
+    private bool animating = false;
+
     void Start()
     {
         m_PowerEnable = false;
@@ -23,16 +25,49 @@ public class BounceWall : Objects
     {
         if (CanActive(coll))
         {
-            coll.rigidbody.AddForce(coll.relativeVelocity * -0.1f);
+            Vector3 velocity = coll.relativeVelocity;
+            velocity = new Vector3(-velocity.x, velocity.y);
+            coll.rigidbody.AddForce(velocity * 1.01f, ForceMode2D.Impulse);
             BGMManager.Instance.PlaySound(m_effectSound);
 
-            m_anim.SetBool("play", true);
+            if(!animating)
+                StartCoroutine(Scale(velocity.y));
+
+            //m_anim.SetBool("play", true);
         }
     }
 
-    void OnCollisionExit2D(Collision2D coll)
+    //void OnCollisionExit2D(Collision2D coll)
+    //{
+    //    //if (CanActive(coll))
+    //        //m_anim.SetBool("play", false);
+    //}
+
+    IEnumerator Scale(float _velocity)
     {
-        if (CanActive(coll))
-            m_anim.SetBool("play", false);
+        float y_scale = this.transform.localScale.y;
+        float y_size = Mathf.Clamp(y_scale - (_velocity * 0.1f), 0.5f, 1.0f);
+
+        Vector3 target = new Vector3(transform.localScale.x, y_size, transform.localScale.z);
+        Vector3 original = transform.localScale;
+
+        animating = true;
+
+        float time = 0f;
+        while (time <= 1)
+        {
+            time += Time.deltaTime / 0.1f;
+            transform.localScale = Vector3.Lerp(original, target, time);
+            yield return new WaitForFixedUpdate();
+        }
+        time = 0;
+        while (time <= 1)
+        {
+            time += Time.deltaTime / 0.1f;
+            transform.localScale = Vector3.Lerp(target, original, time);
+            yield return new WaitForFixedUpdate();
+        }
+
+        animating = false;
     }
 }

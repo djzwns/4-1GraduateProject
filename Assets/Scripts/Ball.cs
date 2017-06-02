@@ -6,7 +6,7 @@ public class Ball : MonoBehaviour
 {
     private Rigidbody2D m_Ball;
 
-    void Awake()
+    void Start()
     {
         m_Ball = gameObject.GetComponent<Rigidbody2D>();
         GameObject.FindObjectOfType<StartFlag>().ResetPosition(m_Ball.transform);

@@ -28,7 +28,7 @@ Shader "Skybox/Farland Skies/Low Poly" {
 			_SunTint("Sun Tint", Color) = (.5, .5, .5, 1.0)
 
 			[NoScaleOffset]
-			_SunTex("Sun Texture", 2D) = "grey" {}
+			_SunTex("Sun Texture", ) = "grey" {}
 
 		[Header(Moon)]
 
@@ -36,7 +36,7 @@ Shader "Skybox/Farland Skies/Low Poly" {
 			_MoonTint("Moon Tint", Color) = (.5, .5, .5, 1.0)
 
 			[NoScaleOffset]
-			_MoonTex("Moon Texture", 2D) = "grey" {}
+			_MoonTex("Moon Texture", ) = "grey" {}
 
 		[Header(Clouds)]
 
@@ -79,11 +79,11 @@ Shader "Skybox/Farland Skies/Low Poly" {
 
 			fixed _SunSize;
 			half4 _SunTint;
-			sampler2D _SunTex;
+			sampler _SunTex;
 
 			fixed _MoonSize;
 			half4 _MoonTint;
-			sampler2D _MoonTex;
+			sampler _MoonTex;
 
 			half3 _CloudsTint;
 			fixed _CloudsRotation;
@@ -125,9 +125,9 @@ Shader "Skybox/Farland Skies/Low Poly" {
 				return float4(mul(m, vertex.xz), vertex.yw).xzyw;
 			}
 
-			half4 CelestialColor(float3 position, sampler2D tex, fixed size, half4 tint) {
+			half4 CelestialColor(float3 position, sampler tex, fixed size, half4 tint) {
 				fixed depthCheck = step(position.z, 0); // equivalent of (position.z < 0)			
-				half4 sTex = tex2D(tex, position.xy / (0.5 * size) + float2(0.5, 0.5));
+				half4 sTex = tex(tex, position.xy / (0.5 * size) + float2(0.5, 0.5));
 
 				half4 halo = 1.0 - smoothstep(0, 0.35 * size, length(position.xy));
 				sTex = sTex.r + (kHaloBase + 1.75 * halo * halo) * sTex.b;
