@@ -14,12 +14,16 @@ public class DestinationFlag : MonoBehaviour
     private Timer m_timer;
     private string m_str;
     private bool m_timerOn;
-    
+
+    private Camera mainCam;
+
     void Awake()
     {
         m_timer = new Timer(m_limitTime);
         m_timerOn = false;
         m_effect.SetActive(false);
+
+        mainCam = GameObject.Find("Main Camera").GetComponent<Camera>();
     }
 
     void Update()
@@ -65,7 +69,7 @@ public class DestinationFlag : MonoBehaviour
     void OnGUI()
     {
         // 임시... 카운트 표시
-        Vector2 pos = Camera.main.WorldToScreenPoint(transform.position);
+        Vector2 pos = mainCam.WorldToScreenPoint(transform.position);
 
         GUI.BeginGroup(new Rect(pos, new Vector2(200, 50)), m_style);
 

@@ -23,7 +23,7 @@ public class CameraController : MonoBehaviour
     
 	void Start ()
     {
-        m_Camera = Camera.main;
+        m_Camera = GameObject.Find("Main Camera").GetComponent<Camera>();
         m_Ball = GameObject.Find("ball");
         m_orthographicSize = m_Camera.orthographicSize;
         ResetPosition(m_Ball.transform);

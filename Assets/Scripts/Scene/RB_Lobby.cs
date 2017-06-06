@@ -29,7 +29,6 @@ public class RB_Lobby : MonoBehaviour
         MapUIDisable();
         m_Map[m_lastPage].gameObject.SetActive(true);
         m_Map[m_lastPage].MoveIn();
-        BGMManager.Instance.BGMChange(-1);
 
         //GUIAnimSystem.Instance.ButtonAddEvents(m_Music.transform, BGMManager.Instance.ToggleMute);
         //GUIAnimSystem.Instance.ButtonAddEvents(m_Music.transform, ToggleMute);

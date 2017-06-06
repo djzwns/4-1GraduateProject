@@ -12,6 +12,7 @@ public class OpenScene : MonoBehaviour {
     {
         GUIAnimSystem.Instance.EnableAllButton(false);
         GUIAnimSystem.Instance.LoadLevel("Lobby", 0.3f);
+        BGMManager.Instance.BGMChange(0);
 
         gameObject.SendMessage("HideAllGUIs");
     }
@@ -23,7 +24,7 @@ public class OpenScene : MonoBehaviour {
         StageInformation.m_stageNum = _stageNum;
 
         // 스테이지 따라 브금 변경..
-        BGMManager.Instance.BGMChange(-1);
+        BGMManager.Instance.BGMChange((_stageNum / 3) + 1);
 
         SceneManager.LoadScene("Game");
     }

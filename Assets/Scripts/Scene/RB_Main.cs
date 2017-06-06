@@ -9,7 +9,7 @@ public class RB_Main : MonoBehaviour {
 
     void Awake()
     {
-        BGMManager.Instance.BGMChange(-1);
+        BGMManager.Instance.BGMChange(0);
     }
 
 	void Start ()

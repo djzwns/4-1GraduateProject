@@ -84,13 +84,61 @@ public class BGMManager : MonoBehaviour
         PlayOneShot(m_button_clip);
     }
 
+    /// <summary>
+    /// bgm 변경
+    /// </summary>
+    /// <param name="_musicNumber">원하는 브금 번호</param>
     public void BGMChange(int _musicNumber)
     {
-        if (_musicNumber == -1) return;
-        // 페이드 효과 추가 예정...
-        m_audioSource[0].Stop();
+        if (!CanChange(_musicNumber)) return;
+
+        StartCoroutine(Change(_musicNumber));
+    }
+
+    private bool CanChange(int _number)
+    {
+        return 0 <= _number && _number < m_bgm_clip.Length;
+    }
+
+    private IEnumerator Change(int _musicNumber)
+    {
+        yield return FadeOutSound();
+
+        if(m_audioSource[0].clip == m_bgm_clip[_musicNumber])
+            m_audioSource[0].Pause();
+
+        else
+            m_audioSource[0].Stop();
+
         m_audioSource[0].clip = m_bgm_clip[_musicNumber];
         m_audioSource[0].Play();
+        yield return FadeInSound();
+    }
+
+    private IEnumerator FadeOutSound()
+    {
+        float max_volume = PlayerPrefs.GetFloat("BGMVolume", 1);
+        float volume = m_audioSource[0].volume;
+        while (volume > 0)
+        {
+            volume = m_audioSource[0].volume - 0.1f;
+            m_audioSource[0].volume = Mathf.Clamp(volume, 0f, max_volume);
+
+            yield return new WaitForSeconds(0.02f);
+        }
+    }
+
+    private IEnumerator FadeInSound()
+    {
+        float max_volume = PlayerPrefs.GetFloat("BGMVolume", 1);
+        float volume = m_audioSource[0].volume;
+        while (volume < max_volume)
+        {
+            volume = m_audioSource[0].volume + 0.1f;
+            m_audioSource[0].volume = Mathf.Clamp(volume, 0f, max_volume);
+
+            yield return new WaitForSeconds(0.02f);
+        }
     }
 
     private void Mute()
