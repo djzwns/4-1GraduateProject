@@ -25,8 +25,8 @@ public class CameraController : MonoBehaviour
     {
         m_Camera = Camera.main;
         m_Ball = GameObject.Find("ball");
-        ResetPosition(m_Ball.transform);
         m_orthographicSize = m_Camera.orthographicSize;
+        ResetPosition(m_Ball.transform);
     }
 	
 	void LateUpdate ()
@@ -43,6 +43,7 @@ public class CameraController : MonoBehaviour
     {
         float size = m_Camera.orthographicSize + _deltaPinch * m_ZoomSpeed;
         m_Camera.orthographicSize = Mathf.Clamp(size, m_MinCamSize, m_MaxCamSize);
+        m_orthographicSize = m_Camera.orthographicSize;
     }
 
     public void Move(Vector2 _vec)
@@ -54,6 +55,7 @@ public class CameraController : MonoBehaviour
     {
         Vector3 resetPosition = new Vector3(_lookAt.position.x, _lookAt.position.y, transform.position.z);
         transform.position = resetPosition;
+        m_Camera.orthographicSize = m_orthographicSize;
     }
 
     private void SmoothFollow()

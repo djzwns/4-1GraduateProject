@@ -14,14 +14,19 @@ public class StageManager : Singleton<StageManager>
 
     public bool m_IsClear { get; set; }
 
+    public delegate void GameClearHandler();
+    public GameClearHandler gameclear_callback;
+
     void Awake()
     {
-        string current_stage = StageInformation.Instance.GetCurrentStage();
+        string current_stage = StageInformation.Instance.GetCurrentStage().name;
         LoadStageInfo(current_stage);
         m_stageCreator = gameObject.AddComponent<StageCreator>();
         // 스테이지 생성
         m_Map = m_stageCreator.Create(current_stage);
         m_GameObjectList = new List<GameObject>();
+
+        gameclear_callback += Clear;
     }
 
     public bool NextStage()
@@ -32,6 +37,9 @@ public class StageManager : Singleton<StageManager>
         if (nextStage.Equals("end")) return false;
         m_IsClear = false;
 
+        if (gameclear_callback != null)
+            gameclear_callback();
+
         LoadStageInfo(nextStage);
         GameObject destroyObject = m_Map;
         destroyObject.SetActive(false);
@@ -39,37 +47,23 @@ public class StageManager : Singleton<StageManager>
 
         m_Map = m_stageCreator.Create(nextStage);
 
+        
         return true;
     }
 
     public void Save()
     {
-        if (StageInformation.Instance.RenewalStage())
-            PlayerPrefs.SetInt("RB_LastStage", StageInformation.m_lastStage);
-
+        StageInformation.Instance.StarReset();
         m_GameObjectList.ForEach(go =>
        {
            if (go.GetComponent<Star>() == null) return;
            int star_num = 0;
            int.TryParse(go.name, out star_num);
-           StageInformation.Instance.m_stage[StageInformation.m_stageNum].star[star_num].ateThis = true;
+           StageInformation.Instance.SetStarAte(star_num, true);
        });
 
-        // 현재 스테이지 정보 저장.
-        SaveStageInfo(StageInformation.Instance.GetCurrentStage());
-    }
-
-    /// <summary>
-    /// 스테이지 정보 저장
-    /// </summary>
-    /// <param name="_fileName"></param>
-    private void SaveStageInfo(string _fileName)
-    {
-        StageInformation.Stage stage = StageInformation.Instance.m_stage[StageInformation.m_stageNum];
-
-        string json_to_string = JsonUtility.ToJson(stage, true);
-
-        FileReadWrite.Write(_fileName, json_to_string);
+        StageInformation.Instance.RenewalStage();
+        StageInformation.Instance.Save();
     }
 
     /// <summary>
@@ -108,6 +102,13 @@ public class StageManager : Singleton<StageManager>
     public void ResetStageObject()
     {
         m_GameObjectList.ForEach(go => { go.SetActive(true); });
+        m_GameObjectList.Clear();
+    }
+
+    private void Clear()
+    {
+        Star[] star = GameObject.Find("starHouse").GetComponentsInChildren<Star>(includeInactive: true);
+        for (int i = 0; i < star.Length; ++i) Destroy(star[i].gameObject);
         m_GameObjectList.Clear();
     }
 }

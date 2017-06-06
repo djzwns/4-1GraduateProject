@@ -22,26 +22,45 @@ public class RB_Lobby : MonoBehaviour
     void Start()
     {
         m_lastPage = m_ScollSnap.m_currentPage;
-        m_Map[m_lastPage].MoveIn();
         StageInformation.Load();
+
+        InteractableMapButton(StageInformation.m_lastStage);
+
+        MapUIDisable();
+        m_Map[m_lastPage].gameObject.SetActive(true);
+        m_Map[m_lastPage].MoveIn();
         BGMManager.Instance.BGMChange(-1);
 
         //GUIAnimSystem.Instance.ButtonAddEvents(m_Music.transform, BGMManager.Instance.ToggleMute);
         //GUIAnimSystem.Instance.ButtonAddEvents(m_Music.transform, ToggleMute);
         //MuteImageChange(m_Music.GetComponent<Image>());
 
-        InteractableMapButton(StageInformation.m_lastStage);
     }
 
     void Update()
     {
         if (m_lastPage != m_ScollSnap.m_currentPage)
         {
-            m_Map[m_lastPage].MoveOut();
-
-            m_lastPage = m_ScollSnap.m_currentPage;
-            m_Map[m_lastPage].MoveIn();
+            MapUIActive();
         }
+    }
+
+    private void MapUIDisable()
+    {
+        for (int i = 0; i < m_Map.Length; ++i)
+        {
+            m_Map[i].gameObject.SetActive(false);
+        }
+    }
+
+    private void MapUIActive()
+    {
+        m_Map[m_lastPage].MoveOut();
+        m_Map[m_lastPage].gameObject.SetActive(false);
+
+        m_lastPage = m_ScollSnap.m_currentPage;
+        m_Map[m_lastPage].gameObject.SetActive(true);
+        m_Map[m_lastPage].MoveIn();
     }
 
     /// <summary>

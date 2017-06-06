@@ -57,12 +57,11 @@ public class ObjectControlUI : Singleton<ObjectControlUI> {
         {
             m_IsOn = true;
             m_UI.gameObject.SetActive(true);
-
-            // slider 사이즈가 너무 작음, UI 켜졌을 때 카메라 고정 시키기
+            
             Objects obj = m_Object.GetComponent<Objects>();
             obj.SetSlider(m_PowerBar, m_RotateBar);
-            if (!obj.m_PowerEnable) m_PowerBar.transform.parent.gameObject.SetActive(false);
-            else m_PowerBar.transform.parent.gameObject.SetActive(true);
+            if (!obj.m_PowerEnable) m_PowerBar.interactable = false;
+            else m_PowerBar.interactable = true;
         }
     }
 }

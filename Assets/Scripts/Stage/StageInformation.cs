@@ -19,14 +19,40 @@ public class StageInformation : Singleton<StageInformation>
     /// 현재 스테이지.
     /// </summary>
     /// <returns></returns>
-    public string GetCurrentStage()
+    public Stage GetCurrentStage()
     {
-        return m_stage[m_stageNum].name;
+        return m_stage[m_stageNum];
     }
 
     public float GetCurrentStageLimitedTime()
     {
         return m_stage[m_stageNum].limitedTime;
+    }
+
+    /// <summary>
+    /// 현재 스테이지의 별 갯수
+    /// </summary>
+    /// <returns></returns>
+    public int GetCurrentStageStarCount()
+    {
+        return m_stage[m_stageNum].star.Length;
+    }
+    
+    /// <summary>
+    /// 스테이지에 있는 별을 다 먹은지 확인
+    /// </summary>
+    /// <returns></returns>
+    public bool AllStarAte()
+    {
+        int starCount = m_stage[m_stageNum].star.Length;
+        Star[] star = m_stage[m_stageNum].star;
+
+        for (int i = 0; i < starCount; ++i)
+        {
+            if (!star[i].ateThis) return false;
+        }
+
+        return true;
     }
 
     /// <summary>
@@ -44,13 +70,11 @@ public class StageInformation : Singleton<StageInformation>
     /// 최종 스테이지 갱신
     /// </summary>
     /// <returns></returns>
-    public bool RenewalStage()
+    public void RenewalStage()
     {
-        if (m_lastStage != m_stageNum) return false;
-        if (m_lastStage > m_stageNum) return false;
+        if (m_lastStage > m_stageNum) return;
 
         m_lastStage = m_stageNum + 1;
-        return true;
     }
 
     public static bool CanPlay(int _stageNum)
@@ -91,13 +115,41 @@ public class StageInformation : Singleton<StageInformation>
         return stage_data;
     }
 
-    public static void Save()
-    {
-        PlayerPrefs.SetInt("RB_LastStage", m_lastStage);
-    }
-
     public static void Load()
     {
         m_lastStage = PlayerPrefs.GetInt("RB_LastStage", 0);
+    }
+
+    public void Save()
+    {
+        PlayerPrefs.SetInt("RB_LastStage", m_lastStage);
+        SaveStageInfo();
+    }
+
+    /// <summary>
+    /// 스테이지 정보 저장
+    /// </summary>
+    /// <param name="_fileName"></param>
+    private void SaveStageInfo()
+    {
+        Stage stage = m_stage[m_stageNum];
+
+        string json_to_string = JsonUtility.ToJson(stage, true);
+
+        FileReadWrite.Write(stage.name, json_to_string);
+    }
+
+    public void SetStarAte(int _starNum, bool _ate)
+    {
+        m_stage[m_stageNum].star[_starNum].ateThis = _ate;
+    }
+
+    public void StarReset()
+    {
+        int starCount = m_stage[m_stageNum].star.Length;
+        for (int i = 0; i < starCount; ++i)
+        {
+            m_stage[m_stageNum].star[i].ateThis = false;
+        }
     }
 }

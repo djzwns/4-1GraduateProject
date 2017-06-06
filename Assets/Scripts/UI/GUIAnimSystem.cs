@@ -241,7 +241,7 @@ public class GUIAnimSystem : Singleton<GUIAnimSystem>
 
             yield return new WaitForFixedUpdate();
         }
-
+        _gui.transform.localScale = Vector3.zero;
         _gui.m_ScaleOut.Began = false;
         _gui.m_ScaleOut.Ended = true;
     }

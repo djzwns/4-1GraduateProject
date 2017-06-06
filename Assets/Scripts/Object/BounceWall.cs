@@ -11,7 +11,7 @@ public class BounceWall : Objects
 
     void Start()
     {
-        m_PowerEnable = false;
+        //m_PowerEnable = false;
         m_rotateObject = this.transform;
     }
 

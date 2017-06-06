@@ -83,10 +83,10 @@ public class Teeth : Objects
     {
         Quaternion target;
 
-        target = Quaternion.Euler(-40, 90, -90);
+        target = Quaternion.Euler(0, 0, -50);
         StartCoroutine(bite_spitCoroutine(m_teeth[0], _time * 0.125f, target));
 
-        target = Quaternion.Euler(-40, -90, 90);
+        target = Quaternion.Euler(0, 0, 50);
         StartCoroutine(bite_spitCoroutine(m_teeth[1], _time * 0.125f, target));
     }
 
@@ -94,7 +94,7 @@ public class Teeth : Objects
     {
         Quaternion target;
 
-        target = Quaternion.Euler(-90, 0, 0);
+        target = Quaternion.Euler(0, 0, 0);
         StartCoroutine(bite_spitCoroutine(m_teeth[0], _time * 0.05f, target));
         StartCoroutine(bite_spitCoroutine(m_teeth[1], _time * 0.05f, target));
     }
@@ -108,7 +108,7 @@ public class Teeth : Objects
         while (time <= 1)
         {
             time += Time.deltaTime / _time;
-            _transform.rotation = Quaternion.Lerp(original, _target, time);
+            _transform.localRotation = Quaternion.Lerp(original, _target, time);
             yield return new WaitForFixedUpdate();
         }
     }

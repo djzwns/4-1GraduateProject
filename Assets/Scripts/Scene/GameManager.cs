@@ -12,7 +12,13 @@ public class GameManager : Singleton<GameManager> {
 
     private GameObject m_SceneController;
     public StageTimer m_stageTimer;
-    
+
+    public delegate void GameStartHandler();
+    public GameStartHandler gamestart_callback { get; set; }
+
+    public delegate void GameResetHandler();
+    public GameResetHandler gamereset_callback { get; set; }
+
     void Start()
     {
         m_IsPlaying = false;
@@ -20,6 +26,7 @@ public class GameManager : Singleton<GameManager> {
         m_CamController = GameObject.FindObjectOfType<CameraController>();
         m_SceneController = GameObject.Find("-- SceneController --");
         m_stageTimer.timeout_callback += ResetGame;
+        gamereset_callback += ResetGame;
     }
 
     // 다시시작, 클리어시 스테이지 이동 구현
@@ -41,7 +48,9 @@ public class GameManager : Singleton<GameManager> {
         if (m_IsPause) return;
         if (m_IsPlaying)
         {
-            ResetGame();
+            //ResetGame();
+            if (gamereset_callback != null)
+                gamereset_callback();
             return;
         }
         m_stageTimer.SetActive(true);
@@ -49,6 +58,11 @@ public class GameManager : Singleton<GameManager> {
         m_IsPlaying = true;
         m_IsPause = false;
         m_Ball.Active();
+
+        if (gamestart_callback != null)
+        {
+            gamestart_callback();
+        }
     }
 
     /// <summary>

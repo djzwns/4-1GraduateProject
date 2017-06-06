@@ -11,13 +11,13 @@ public class FanBody : Objects
     private float m_max_power = 30f;
     [Range(0f, 2f)]
     public float m_const_power = 0;
-    private ParticleSystem ps;
+    //private ParticleSystem ps;
 
     void Start()
     {
         m_PowerEnable = true;
         m_rotateObject = m_joint;
-        ps = m_effect.GetComponent<ParticleSystem>();        
+        //ps = m_effect.GetComponent<ParticleSystem>();        
     }
 
     void Update()
