@@ -121,9 +121,9 @@ public class RB_Game : MonoBehaviour
     public void NextGame()
     {
         if (!StageManager.Instance.NextStage()) return;
-        StarInit();
-        Reset();
-        EnableButton(m_PauseButton.gameObject, true);
+        //StarInit();
+        //Reset();
+        //EnableButton(m_PauseButton.gameObject, true);
     }
 
     // UI 숨김

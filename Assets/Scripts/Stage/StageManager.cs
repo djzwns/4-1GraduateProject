@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Borodar.FarlandSkies.LowPoly;
 
 /// <summary>
 /// 스테이지 관리. 
@@ -9,6 +10,8 @@ using UnityEngine;
 public class StageManager : Singleton<StageManager>
 {
     private GameObject m_Map;
+    private float[] m_time = { 60, 75, 100 };
+
     private StageCreator m_stageCreator;
     private List<GameObject> m_GameObjectList;
 
@@ -17,16 +20,10 @@ public class StageManager : Singleton<StageManager>
     public delegate void GameClearHandler();
     public GameClearHandler gameclear_callback;
 
-    // 맵이 생성 될 때 호출
-    public delegate void StageInitializeHandler();
-    public StageInitializeHandler stageinit_callback;
-
-    // 맵이 생성 된 후 호출
-    public delegate void StageCreateCompleteHandler();
-    public StageCreateCompleteHandler stagecreated_callback;
-
     void Awake()
     {
+        SceneManager.Instance.TimeOfDay = m_time[StageInformation.m_stageNum % 3];
+
         string current_stage = StageInformation.Instance.GetCurrentStage().name;
         m_stageCreator = gameObject.AddComponent<StageCreator>();
 
@@ -61,8 +58,6 @@ public class StageManager : Singleton<StageManager>
 
     private void MapCreate(string _mapName)
     {
-        //stageinit_callback();
-
         LoadStageInfo(_mapName);
         m_Map = m_stageCreator.Create(_mapName);
     }

@@ -26,7 +26,7 @@ public class OpenScene : MonoBehaviour {
         // 스테이지 따라 브금 변경..
         BGMManager.Instance.BGMChange((_stageNum / 3) + 1);
 
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("Travel");
     }
 
     public void ButtonGameExit()
