@@ -17,6 +17,9 @@ public class StageManager : Singleton<StageManager>
 
     public bool m_IsClear { get; set; }
 
+    public delegate void StageClearHandler();
+    public StageClearHandler stageclear_callback;
+
     void Awake()
     {
         SceneManager.Instance.TimeOfDay = m_time[StageInformation.m_stageNum % 3];
@@ -27,16 +30,37 @@ public class StageManager : Singleton<StageManager>
         // 스테이지 생성
         MapCreate(current_stage);
 
-        m_GameObjectList = new List<GameObject>();
+        m_GameObjectList = new List<GameObject>();        
     }
 
-    public void NextStage()
+    void Update()
+    {
+        if (!m_IsClear) return;
+
+        if (stageclear_callback != null)
+            stageclear_callback();
+
+        m_IsClear = false;
+    }
+
+    /// <summary>
+    /// 다음 맵 준비
+    /// </summary>
+    private void LoadNextStage()
     {
         string nextStage = StageInformation.Instance.GetNextStage();
 
         // 마지막 맵이면 아무것도 ..
         if (nextStage.Equals("end")) return;
         LoadStage(nextStage);
+    }
+
+    /// <summary>
+    /// 다음 스테이지 버튼 클릭시 실행
+    /// </summary>
+    public void NextStage()
+    {
+        LoadNextStage();
         UnityEngine.SceneManagement.SceneManager.LoadScene("Travel");
     }
 
@@ -46,6 +70,10 @@ public class StageManager : Singleton<StageManager>
         m_Map = m_stageCreator.Create(_mapName);
     }
 
+    /// <summary>
+    /// 스테이지정보 클래스 갱신
+    /// </summary>
+    /// <param name="_mapName"></param>
     private void LoadStage(string _mapName)
     {
         StageInformation.Stage stage = StageInformation.LoadStageInfo(_mapName);
@@ -55,16 +83,18 @@ public class StageManager : Singleton<StageManager>
     public void Save()
     {
         StageInformation.Instance.StarReset();
+        int ateStarCount = 0;
         m_GameObjectList.ForEach(go =>
        {
            if (go.GetComponent<Star>() == null) return;
+           ++ateStarCount;
            int star_num = 0;
            int.TryParse(go.name, out star_num);
            StageInformation.Instance.SetStarAte(star_num, true);
        });
 
         StageInformation.Instance.RenewalStage();
-        if(StageInformation.Instance.AllStarAte())
+        if(ateStarCount != 0)
             StageInformation.Instance.Save();
     }
 

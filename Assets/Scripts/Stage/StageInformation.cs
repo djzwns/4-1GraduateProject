@@ -39,7 +39,9 @@ public class StageInformation : Singleton<StageInformation>
     }
     
     /// <summary>
-    /// 스테이지에 있는 별을 다 먹은지 확인
+    /// 현재 진행중인 스테이지에 있는 별을 다 먹은지 확인
+    /// 이미 다먹은 스테이지라면 true
+    /// 다 못먹은 스테이지라면 전부다 먹어야 true를 반환
     /// </summary>
     /// <returns></returns>
     public bool AllStarAte()
@@ -75,6 +77,7 @@ public class StageInformation : Singleton<StageInformation>
         if (m_lastStage > m_stageNum) return;
 
         m_lastStage = m_stageNum + 1;
+        PlayerPrefs.SetInt("RB_LastStage", m_lastStage);
     }
 
     public static bool CanPlay(int _stageNum)
@@ -122,7 +125,6 @@ public class StageInformation : Singleton<StageInformation>
 
     public void Save()
     {
-        PlayerPrefs.SetInt("RB_LastStage", m_lastStage);
         SaveStageInfo();
     }
 
