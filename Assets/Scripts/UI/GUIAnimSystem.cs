@@ -37,7 +37,7 @@ public class GUIAnimSystem : Singleton<GUIAnimSystem>
         Button[] buttons = FindObjectsOfType<Button>();
         foreach (var button in buttons)
         {
-            button.enabled = true;
+            button.enabled = _enable;
         }
     }
 

@@ -5,22 +5,25 @@ using UnityEngine.UI;
 
 public class RB_Lobby : MonoBehaviour
 {
-    static int m_mute = 0;
-    public Sprite[] m_mute_image;
     public GUIAnimator m_Setting;
+    public GUIAnimator m_Exit;
     public GUIAnimator m_PauseWindow;
-    //public GUIAnimator m_Music;
-    //public GUIAnimator m_Skin;
+    public GUIAnimator m_ExitWindow;
+    private bool m_SettingOn = false;
+    private bool m_ExitOn = false;
+    private GameObject m_ButtonGuard;
 
     public GUIAnimator[] m_Map;
 
     public ScrollSnap m_ScollSnap;
     private int m_lastPage;
 
-    private bool m_SettingOn = false;
 
     void Start()
     {
+        m_ButtonGuard = GameObject.Find("ButtonGuard (Panel)");
+        EnableButtonGuard(false);
+
         m_lastPage = m_ScollSnap.m_currentPage;
         StageInformation.Load();
 
@@ -29,11 +32,6 @@ public class RB_Lobby : MonoBehaviour
         MapUIDisable();
         m_Map[m_lastPage].gameObject.SetActive(true);
         m_Map[m_lastPage].MoveIn();
-
-        //GUIAnimSystem.Instance.ButtonAddEvents(m_Music.transform, BGMManager.Instance.ToggleMute);
-        //GUIAnimSystem.Instance.ButtonAddEvents(m_Music.transform, ToggleMute);
-        //MuteImageChange(m_Music.GetComponent<Image>());
-
     }
 
     void Update()
@@ -71,42 +69,58 @@ public class RB_Lobby : MonoBehaviour
         if (m_SettingOn)
         {
             m_PauseWindow.MoveIn();
-            //m_Music.MoveIn();
-            //m_Skin.MoveIn();
+            EnableButtonGuard(true);
+            DisableButton(m_Exit.gameObject, false);
         }
         else
         {
             m_PauseWindow.MoveOut();
-            //m_Music.MoveOut();
-            //m_Skin.MoveOut();
+            EnableButtonGuard(false);
+            DisableButton(m_Exit.gameObject, false);
         }
 
         StartCoroutine(DisableButtonForSeconds(m_Setting.gameObject, 0.5f));
     }
 
     /// <summary>
-    /// 음악 온/오프 이미지 토글
+    /// 나가기 버튼 온/오프
     /// </summary>
-    public void ToggleMute()
+    public void OnExitWindow()
     {
-        //Image btn = m_Music.GetComponent<Image>();
-        //m_mute = ++m_mute % 2;
-        //MuteImageChange(btn);
+        m_ExitOn = !m_ExitOn;
+        if (m_ExitOn)
+        {
+            m_ExitWindow.MoveIn();
+            EnableButtonGuard(true);
+            DisableButton(m_Setting.gameObject, false);
+        }
+        else
+        {
+            m_ExitWindow.MoveOut();
+            EnableButtonGuard(false);
+            DisableButton(m_Setting.gameObject, true);
+        }
+
+        StartCoroutine(DisableButtonForSeconds(m_Exit.gameObject, 0.5f));
     }
 
-    private void MuteImageChange(Image _btn)
+    private void EnableButtonGuard(bool _enable)
     {
-        _btn.sprite = m_mute_image[m_mute];
+        m_ButtonGuard.SetActive(_enable);
     }
 
-
-    private IEnumerator DisableButtonForSeconds(GameObject _gObj, float _disableTime)
+    private void DisableButton(GameObject _button, bool _enable)
     {
-        GUIAnimSystem.Instance.EnableButton(_gObj.transform, false);
+        GUIAnimSystem.Instance.EnableButton(_button.transform, _enable);
+    }
+
+    private IEnumerator DisableButtonForSeconds(GameObject _button, float _disableTime)
+    {
+        GUIAnimSystem.Instance.EnableButton(_button.transform, false);
 
         yield return new WaitForSeconds(_disableTime);
 
-        GUIAnimSystem.Instance.EnableButton(_gObj.transform, true);
+        GUIAnimSystem.Instance.EnableButton(_button.transform, true);
     }
 
     /// <summary>
