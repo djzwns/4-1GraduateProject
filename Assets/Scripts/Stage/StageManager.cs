@@ -17,9 +17,6 @@ public class StageManager : Singleton<StageManager>
 
     public bool m_IsClear { get; set; }
 
-    public delegate void GameClearHandler();
-    public GameClearHandler gameclear_callback;
-
     void Awake()
     {
         SceneManager.Instance.TimeOfDay = m_time[StageInformation.m_stageNum % 3];
@@ -31,35 +28,28 @@ public class StageManager : Singleton<StageManager>
         MapCreate(current_stage);
 
         m_GameObjectList = new List<GameObject>();
-
-        gameclear_callback += Clear;
     }
 
-    public bool NextStage()
+    public void NextStage()
     {
         string nextStage = StageInformation.Instance.GetNextStage();
 
         // 마지막 맵이면 아무것도 ..
-        if (nextStage.Equals("end")) return false;
-        m_IsClear = false;
-
-        if (gameclear_callback != null)
-            gameclear_callback();
-
-        GameObject destroyObject = m_Map;
-        destroyObject.SetActive(false);
-        Destroy(destroyObject);
-
-        MapCreate(nextStage);
-
-        
-        return true;
+        if (nextStage.Equals("end")) return;
+        LoadStage(nextStage);
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Travel");
     }
 
     private void MapCreate(string _mapName)
     {
-        LoadStageInfo(_mapName);
+        LoadStage(_mapName);
         m_Map = m_stageCreator.Create(_mapName);
+    }
+
+    private void LoadStage(string _mapName)
+    {
+        StageInformation.Stage stage = StageInformation.LoadStageInfo(_mapName);
+        StageInformation.Instance.SetStage(stage);
     }
 
     public void Save()
@@ -74,22 +64,8 @@ public class StageManager : Singleton<StageManager>
        });
 
         StageInformation.Instance.RenewalStage();
-        StageInformation.Instance.Save();
-    }
-
-    /// <summary>
-    /// 스테이지 정보 불러오기
-    /// </summary>
-    /// <param name="_fileName"></param>
-    private void LoadStageInfo(string _fileName)
-    {
-        string json = FileReadWrite.Read(_fileName);
-
-        if (json == null) { return; }
-
-        StageInformation.Stage stage_data;
-        stage_data = JsonUtility.FromJson<StageInformation.Stage>(json);
-        StageInformation.Instance.SetStage(stage_data);
+        if(StageInformation.Instance.AllStarAte())
+            StageInformation.Instance.Save();
     }
 
     /// <summary>
@@ -113,13 +89,6 @@ public class StageManager : Singleton<StageManager>
     public void ResetStageObject()
     {
         m_GameObjectList.ForEach(go => { go.SetActive(true); });
-        m_GameObjectList.Clear();
-    }
-
-    private void Clear()
-    {
-        Star[] star = GameObject.Find("starHouse").GetComponentsInChildren<Star>(includeInactive: true);
-        for (int i = 0; i < star.Length; ++i) Destroy(star[i].gameObject);
         m_GameObjectList.Clear();
     }
 }

@@ -120,7 +120,7 @@ public class RB_Game : MonoBehaviour
     // 다음맵
     public void NextGame()
     {
-        if (!StageManager.Instance.NextStage()) return;
+        StageManager.Instance.NextStage();
         //StarInit();
         //Reset();
         //EnableButton(m_PauseButton.gameObject, true);
