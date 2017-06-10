@@ -76,7 +76,7 @@ public class RB_Lobby : MonoBehaviour
         {
             m_PauseWindow.MoveOut();
             EnableButtonGuard(false);
-            DisableButton(m_Exit.gameObject, false);
+            DisableButton(m_Exit.gameObject, true);
         }
 
         StartCoroutine(DisableButtonForSeconds(m_Setting.gameObject, 0.5f));
@@ -112,6 +112,9 @@ public class RB_Lobby : MonoBehaviour
     private void DisableButton(GameObject _button, bool _enable)
     {
         GUIAnimSystem.Instance.EnableButton(_button.transform, _enable);
+        Image image = _button.GetComponent<Image>();
+        if (_enable) image.color = new Color(image.color.r, image.color.g, image.color.b, 1f);
+        else image.color = new Color(image.color.r, image.color.g, image.color.b, 0.42f);
     }
 
     private IEnumerator DisableButtonForSeconds(GameObject _button, float _disableTime)

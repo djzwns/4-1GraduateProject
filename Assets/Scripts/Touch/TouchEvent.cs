@@ -12,6 +12,8 @@ public class TouchEvent : Singleton<TouchEvent>
     public GameObject m_Touched { get; private set; }  
     // 오브젝트를 움직이고 있는지
     public bool m_IsMoved { get; private set; }
+    // UI 드래그중
+    private bool m_UIDrag = false;
 
     private float m_DeltaMagDiff; // 핀치 동작 양
 
@@ -132,6 +134,7 @@ public class TouchEvent : Singleton<TouchEvent>
         m_WasteUI.localScale = Vector3.one;
         m_Touched = null;
         m_IsMoved = false;
+        m_UIDrag = false;
     }
 
     /// <summary>
@@ -170,7 +173,10 @@ public class TouchEvent : Singleton<TouchEvent>
             return;
         }
 
-        m_CamController.Move(TouchDeltaPosition());
+        if (!m_UIDrag)
+        {
+            m_CamController.Move(TouchDeltaPosition());
+        }
     }
 
     // 터치 상태 별 동작
@@ -215,12 +221,20 @@ public class TouchEvent : Singleton<TouchEvent>
     {
         m_TouchCount = Input.touchCount;
 
+        // 터치 포인트가 없을 떄
         if (m_TouchCount == 0) return false;
+
         // UI 터치
-        if (EventSystem.current.IsPointerOverGameObject(0)) return false;
-        // 게임시작
+        if (EventSystem.current.IsPointerOverGameObject(0))
+        {
+            m_UIDrag = true;
+            return false;
+        }
+
+        // 게임시작 했을 때
         if (GameManager.Instance.m_IsPlaying) return false;
-        // 일시정지
+
+        // 일시정지 일 때
         if (GameManager.Instance.m_IsPause) return false;
 
         return true;

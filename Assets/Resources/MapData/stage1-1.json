@@ -1,6 +1,6 @@
 {
     "name": "stage1-1",
-    "limitedTime": 10.0,
+    "limitedTime": 30.0,
     "star": [
         {
             "position": {

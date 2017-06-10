@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ConveyerBelt : Objects
 {
-    private float m_max_power = 3f;
-    [Tooltip("음수는 왼쪽 양수는 오른쪽")] [Range(-3f, 3f)]
+    private float m_max_power = 4f;
+    [Tooltip("음수는 왼쪽 양수는 오른쪽")] [Range(-4f, 4f)]
     public float m_const_power = 0;
     public Transform[] wheels;
 
@@ -41,7 +41,7 @@ public class ConveyerBelt : Objects
     {
         if (GetPower() != 0)
         {
-            _transform.Rotate(Vector3.up * GetPower());
+            _transform.Rotate(Vector3.down * GetPower() * 10f);
         }
     }
 

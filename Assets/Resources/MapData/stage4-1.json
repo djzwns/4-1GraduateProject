@@ -1,0 +1,30 @@
+{
+    "name": "stage4-1",
+    "limitedTime": 20.0,
+    "star": [
+        {
+            "position": {
+                "x": -16.0,
+                "y": -10.2,
+                "z": 0.0
+            },
+            "ateThis": false
+        },
+        {
+            "position": {
+                "x": -6.53,
+                "y": -15.0,
+                "z": 0.0
+            },
+            "ateThis": false
+        },
+        {
+            "position": {
+                "x": 2.7,
+                "y": -1.3,
+                "z": 0.0
+            },
+            "ateThis": false
+        }
+    ]
+}

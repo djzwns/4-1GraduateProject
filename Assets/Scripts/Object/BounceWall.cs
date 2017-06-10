@@ -25,9 +25,9 @@ public class BounceWall : Objects
     {
         if (CanActive(coll))
         {
-            Vector3 velocity = coll.relativeVelocity;
+            Vector3 velocity = coll.relativeVelocity * (1f - coll.collider.sharedMaterial.bounciness);
             velocity = new Vector3(-velocity.x, velocity.y);
-            coll.rigidbody.AddForce(velocity * 1.01f, ForceMode2D.Impulse);
+            coll.rigidbody.AddForce(velocity, ForceMode2D.Impulse);
             BGMManager.Instance.PlaySound(m_effectSound);
 
             if(!animating)
