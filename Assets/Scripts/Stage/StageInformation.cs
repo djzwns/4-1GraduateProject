@@ -63,7 +63,7 @@ public class StageInformation : Singleton<StageInformation>
     /// <returns></returns>
     public string GetNextStage()
     {
-        if (m_stageNum + 1 > m_stage.Length) return "end";
+        if (m_stageNum + 1 >= m_stage.Length) return "end";
 
         return m_stage[++m_stageNum].name;
     }

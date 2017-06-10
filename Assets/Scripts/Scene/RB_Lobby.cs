@@ -21,6 +21,7 @@ public class RB_Lobby : MonoBehaviour
 
     void Start()
     {
+        PlayerPrefs.SetInt("RB_LastStage", 15);
         m_ButtonGuard = GameObject.Find("ButtonGuard (Panel)");
         EnableButtonGuard(false);
 

@@ -46,13 +46,14 @@ public class StageManager : Singleton<StageManager>
     /// <summary>
     /// 다음 맵 준비
     /// </summary>
-    private void LoadNextStage()
+    private bool LoadNextStage()
     {
         string nextStage = StageInformation.Instance.GetNextStage();
 
         // 마지막 맵이면 아무것도 ..
-        if (nextStage.Equals("end")) return;
+        if (nextStage.Equals("end")) return false;
         LoadStage(nextStage);
+        return true;
     }
 
     /// <summary>
@@ -60,7 +61,7 @@ public class StageManager : Singleton<StageManager>
     /// </summary>
     public void NextStage()
     {
-        LoadNextStage();
+        if(!LoadNextStage()) return;
         UnityEngine.SceneManagement.SceneManager.LoadScene("Travel");
     }
 

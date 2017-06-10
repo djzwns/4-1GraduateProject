@@ -119,11 +119,5 @@ public class MovingWall : Objects
             power = m_const_power * m_max_power;
 
         return power;
-    }
-
-    void OnDestroy()
-    {
-        GameManager.Instance.gamestart_callback -= Play;
-        GameManager.Instance.gamereset_callback -= Stop;
-    }
+    }    
 }

@@ -12,18 +12,15 @@ public class DestinationFlag : MonoBehaviour
     public GameObject m_effect;
 
     private Timer m_timer;
-    private string m_str;
     private bool m_timerOn;
 
-    private Camera mainCam;
+    private Ball m_ball;
 
     void Awake()
     {
         m_timer = new Timer(m_limitTime);
         m_timerOn = false;
         m_effect.SetActive(false);
-
-        mainCam = GameObject.Find("Main Camera").GetComponent<Camera>();
     }
 
     void Update()
@@ -32,16 +29,13 @@ public class DestinationFlag : MonoBehaviour
         if (m_timerOn)
         {
             m_timer.Update(Time.deltaTime);
-            m_str = m_timer.RemainingTime().ToString("0.00");
+            m_ball.CountDown(m_timer.GetCurrentTime());
         }
 
         if (!m_timer.IsTimeOut()) return;
 
         if (!StageManager.Instance.m_IsClear)
         {
-            // 클리어 !
-            m_str = "CLEAR!!";
-            // 클리어 부분 추가...
             StageManager.Instance.m_IsClear = true;
             GameManager.Instance.StopGame();
             StageManager.Instance.Save();
@@ -55,6 +49,8 @@ public class DestinationFlag : MonoBehaviour
         if (coll.tag != "ball") return;
         m_timerOn = true;
         m_effect.SetActive(true);
+        m_ball = coll.GetComponent<Ball>();
+        m_ball.TimerOn();
     }
 
     void OnTriggerExit2D(Collider2D coll)
@@ -62,19 +58,8 @@ public class DestinationFlag : MonoBehaviour
         if (coll.tag != "ball") return;
         m_timerOn = false;
         m_timer.Reset();
-        m_str = "";
         m_effect.SetActive(false);
-    }
-
-    void OnGUI()
-    {
-        // 임시... 카운트 표시
-        Vector2 pos = mainCam.WorldToScreenPoint(transform.position);
-
-        GUI.BeginGroup(new Rect(pos, new Vector2(200, 50)), m_style);
-
-        GUI.Label(new Rect(0, 0, 200, 40), m_str, m_style);
-
-        GUI.EndGroup();
+        m_ball.TimerOff();
+        m_ball = null;
     }
 }

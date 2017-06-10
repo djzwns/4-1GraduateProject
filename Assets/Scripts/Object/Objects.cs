@@ -55,13 +55,6 @@ public class Objects : MonoBehaviour
     {
         if (_pick)
         {
-            //float t = 0;
-            //while (t <= 1)
-            //{
-            //    t += Time.deltaTime / 0.5f;
-            //    this.transform.localScale = Vector3.Lerp(m_size, m_size * 1.2f, t);
-            //    yield return new WaitForFixedUpdate();
-            //}
             this.transform.localScale = m_size * 1.3f;
         }
         else

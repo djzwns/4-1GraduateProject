@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 42b111a8cccb1b5428cee7f7d6cfb54b
-timeCreated: 1497101252
+timeCreated: 1497114199
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -26,7 +26,7 @@ TextureImporter:
     21300038: StageSprite_20
     21300040: StageSprite_21
     21300042: StageSprite_22
-    21300044: StageSprite_24
+    21300044: StageSprite_23
     21300046: StageSprite_17
   serializedVersion: 4
   mipmaps:
@@ -388,7 +388,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: StageSprite_24
+      name: StageSprite_23
       rect:
         serializedVersion: 2
         x: 2469

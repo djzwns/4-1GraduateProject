@@ -15,7 +15,7 @@ public class ObjectControlUI : Singleton<ObjectControlUI> {
         m_UI.gameObject.SetActive(false);
     }
 
-    void Update()
+    void FixedUpdate()
     {
         PositionUpdate();
     }
@@ -27,7 +27,7 @@ public class ObjectControlUI : Singleton<ObjectControlUI> {
         if (m_Object == null) return;
 
         Vector3 objPos = m_Object.transform.position;
-        Vector3 worldToScreenPosition = Camera.main.WorldToScreenPoint(objPos);
+        Vector3 worldToScreenPosition = CameraManager.Instance.WorldToScreenPosition(objPos);
 
         m_UI.position = worldToScreenPosition;
     }

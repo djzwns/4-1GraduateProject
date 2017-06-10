@@ -119,6 +119,7 @@ public class TouchEvent : Singleton<TouchEvent>
     /// </summary>
     private void TouchEnded()
     {
+        m_UIDrag = false;
         m_timer.Reset();
 
         if (m_Touched == null)
@@ -134,7 +135,6 @@ public class TouchEvent : Singleton<TouchEvent>
         m_WasteUI.localScale = Vector3.one;
         m_Touched = null;
         m_IsMoved = false;
-        m_UIDrag = false;
     }
 
     /// <summary>
