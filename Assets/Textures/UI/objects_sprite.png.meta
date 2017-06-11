@@ -1,0 +1,742 @@
+fileFormatVersion: 2
+guid: 9224c1a3d65212642b0c9c156fd3db69
+timeCreated: 1497150915
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: objects_sprite_0
+    21300002: objects_sprite_1
+    21300004: objects_sprite_2
+    21300006: objects_sprite_3
+    21300008: objects_sprite_4
+    21300010: objects_sprite_5
+    21300012: objects_sprite_6
+    21300014: objects_sprite_7
+    21300016: objects_sprite_8
+    21300018: objects_sprite_9
+    21300020: objects_sprite_10
+    21300022: objects_sprite_11
+    21300024: objects_sprite_12
+    21300026: objects_sprite_13
+    21300028: objects_sprite_14
+    21300030: objects_sprite_15
+    21300032: objects_sprite_16
+    21300034: objects_sprite_17
+    21300036: objects_sprite_18
+    21300038: objects_sprite_19
+    21300040: objects_sprite_20
+    21300042: objects_sprite_21
+    21300044: objects_sprite_22
+    21300046: objects_sprite_23
+    21300048: objects_sprite_24
+    21300050: objects_sprite_25
+    21300052: objects_sprite_26
+    21300054: objects_sprite_27
+    21300056: objects_sprite_28
+    21300058: objects_sprite_29
+    21300060: objects_sprite_30
+    21300062: objects_sprite_31
+    21300064: objects_sprite_32
+    21300066: objects_sprite_33
+    21300068: objects_sprite_34
+    21300070: objects_sprite_35
+    21300072: objects_sprite_36
+    21300074: objects_sprite_37
+    21300076: objects_sprite_38
+    21300078: objects_sprite_39
+    21300080: objects_sprite_40
+    21300082: objects_sprite_41
+    21300084: objects_sprite_42
+    21300086: objects_sprite_43
+    21300088: objects_sprite_44
+    21300090: objects_sprite_45
+    21300092: objects_sprite_46
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: -1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Android
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: objects_sprite_0
+      rect:
+        serializedVersion: 2
+        x: 538
+        y: 986
+        width: 104
+        height: 91
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_1
+      rect:
+        serializedVersion: 2
+        x: 709
+        y: 996
+        width: 54
+        height: 119
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_2
+      rect:
+        serializedVersion: 2
+        x: 767
+        y: 1003
+        width: 36
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_3
+      rect:
+        serializedVersion: 2
+        x: 828
+        y: 1019
+        width: 50
+        height: 47
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_4
+      rect:
+        serializedVersion: 2
+        x: 1070
+        y: 1093
+        width: 129
+        height: 25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_5
+      rect:
+        serializedVersion: 2
+        x: 1266
+        y: 994
+        width: 43
+        height: 19
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_6
+      rect:
+        serializedVersion: 2
+        x: 285
+        y: 929
+        width: 172
+        height: 57
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_7
+      rect:
+        serializedVersion: 2
+        x: 667
+        y: 934
+        width: 206
+        height: 53
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_8
+      rect:
+        serializedVersion: 2
+        x: 909
+        y: 933
+        width: 104
+        height: 53
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_9
+      rect:
+        serializedVersion: 2
+        x: 546
+        y: 697
+        width: 82
+        height: 91
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_10
+      rect:
+        serializedVersion: 2
+        x: 707
+        y: 707
+        width: 25
+        height: 118
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_11
+      rect:
+        serializedVersion: 2
+        x: 1033
+        y: 882
+        width: 187
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_12
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 642
+        width: 174
+        height: 57
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_13
+      rect:
+        serializedVersion: 2
+        x: 669
+        y: 643
+        width: 206
+        height: 53
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_14
+      rect:
+        serializedVersion: 2
+        x: 910
+        y: 643
+        width: 104
+        height: 53
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_15
+      rect:
+        serializedVersion: 2
+        x: 1266
+        y: 695
+        width: 43
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_16
+      rect:
+        serializedVersion: 2
+        x: 542
+        y: 434
+        width: 82
+        height: 82
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_17
+      rect:
+        serializedVersion: 2
+        x: 708
+        y: 434
+        width: 39
+        height: 114
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_18
+      rect:
+        serializedVersion: 2
+        x: 1021
+        y: 601
+        width: 187
+        height: 25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_19
+      rect:
+        serializedVersion: 2
+        x: 909
+        y: 381
+        width: 104
+        height: 53
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_20
+      rect:
+        serializedVersion: 2
+        x: 1266
+        y: 404
+        width: 44
+        height: 19
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_21
+      rect:
+        serializedVersion: 2
+        x: 542
+        y: 172
+        width: 81
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_22
+      rect:
+        serializedVersion: 2
+        x: 703
+        y: 181
+        width: 54
+        height: 119
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_23
+      rect:
+        serializedVersion: 2
+        x: 1023
+        y: 329
+        width: 186
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_24
+      rect:
+        serializedVersion: 2
+        x: 1267
+        y: 127
+        width: 87
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_25
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 112
+        width: 167
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_26
+      rect:
+        serializedVersion: 2
+        x: 651
+        y: 119
+        width: 206
+        height: 53
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_27
+      rect:
+        serializedVersion: 2
+        x: 904
+        y: 119
+        width: 104
+        height: 53
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_28
+      rect:
+        serializedVersion: 2
+        x: 539
+        y: 934
+        width: 103
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_29
+      rect:
+        serializedVersion: 2
+        x: 1071
+        y: 936
+        width: 103
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_30
+      rect:
+        serializedVersion: 2
+        x: 520
+        y: 643
+        width: 103
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_31
+      rect:
+        serializedVersion: 2
+        x: 1115
+        y: 713
+        width: 22
+        height: 89
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_32
+      rect:
+        serializedVersion: 2
+        x: 1115
+        y: 803
+        width: 22
+        height: 79
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_33
+      rect:
+        serializedVersion: 2
+        x: 1103
+        y: 989
+        width: 35
+        height: 60
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_34
+      rect:
+        serializedVersion: 2
+        x: 1103
+        y: 1050
+        width: 35
+        height: 44
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_35
+      rect:
+        serializedVersion: 2
+        x: 1309
+        y: 995
+        width: 43
+        height: 19
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_36
+      rect:
+        serializedVersion: 2
+        x: 1309
+        y: 695
+        width: 43
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_37
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 382
+        width: 103
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_38
+      rect:
+        serializedVersion: 2
+        x: 669
+        y: 381
+        width: 206
+        height: 53
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_39
+      rect:
+        serializedVersion: 2
+        x: 1310
+        y: 404
+        width: 44
+        height: 19
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_40
+      rect:
+        serializedVersion: 2
+        x: 1101
+        y: 451
+        width: 25
+        height: 81
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_41
+      rect:
+        serializedVersion: 2
+        x: 1101
+        y: 533
+        width: 25
+        height: 68
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_42
+      rect:
+        serializedVersion: 2
+        x: 527
+        y: 120
+        width: 103
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_43
+      rect:
+        serializedVersion: 2
+        x: 1047
+        y: 192
+        width: 134
+        height: 69
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_44
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 261
+        width: 29
+        height: 68
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_45
+      rect:
+        serializedVersion: 2
+        x: 1286
+        y: 169
+        width: 11
+        height: 39
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: objects_sprite_46
+      rect:
+        serializedVersion: 2
+        x: 1324
+        y: 169
+        width: 11
+        height: 39
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

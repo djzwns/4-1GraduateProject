@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class BounceWall : Objects
 {
-    
-    public Animator m_anim;
-
     private bool animating = false;
 
     void Start()

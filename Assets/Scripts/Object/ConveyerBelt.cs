@@ -39,9 +39,10 @@ public class ConveyerBelt : Objects
 
     private void Rotate(Transform _transform)
     {
+        if (_transform == null) return;
         if (GetPower() != 0)
         {
-            _transform.Rotate(Vector3.down * GetPower() * 10f);
+            _transform.Rotate(Vector3.back * GetPower() * 10f);
         }
     }
 

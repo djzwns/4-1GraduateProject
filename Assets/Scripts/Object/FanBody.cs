@@ -67,7 +67,7 @@ public class FanBody : Objects
     {
         if (GetPower() != 0)
         {
-            _transform.Rotate(Vector3.forward * GetPower());
+            _transform.Rotate(Vector3.up * GetPower());
         }
     }
 
