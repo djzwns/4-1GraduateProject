@@ -48,7 +48,8 @@ public class CameraController : MonoBehaviour
 
     public void Move(Vector2 _vec)
     {
-        this.transform.Translate(_vec * m_MoveSpeed);
+        float speed = m_MoveSpeed / m_Camera.orthographicSize;
+        this.transform.Translate(_vec * speed);
     }
 
     public void ResetPosition(Transform _lookAt)

@@ -39,23 +39,23 @@ public class GUIAnimator : MonoBehaviour {
                     break;
 
                 case ePosMove.SelfPosition:
-                    m_MoveOut.BeginPos = transform.position;
+                    m_MoveIn.BeginPos = transform.position;
                     break;
 
                 case ePosMove.UpperScreenEdge:
-                    m_MoveIn.BeginPos = FindObjectPosition("Panel (Top Center)") + (Vector3.up * m_bounds.size.y);
+                    m_MoveIn.BeginPos = FindObjectPosition("Panel (Top Center)") + (Vector3.up * m_bounds.size.y * 2);
                     break;
 
                 case ePosMove.LeftScreenEdge:
-                    m_MoveIn.BeginPos = FindObjectPosition("Panel (Middle Left)") + (Vector3.left * m_bounds.size.x);
+                    m_MoveIn.BeginPos = FindObjectPosition("Panel (Middle Left)") + (Vector3.left * m_bounds.size.x * 2);
                     break;
 
                 case ePosMove.RightScreenEdge:
-                    m_MoveIn.BeginPos = FindObjectPosition("Panel (Middle Right)") + (Vector3.right * m_bounds.size.x);
+                    m_MoveIn.BeginPos = FindObjectPosition("Panel (Middle Right)") + (Vector3.right * m_bounds.size.x * 2);
                     break;
 
                 case ePosMove.BottomScreenEdge:
-                    m_MoveIn.BeginPos = FindObjectPosition("Panel (Bottom Center)") + (Vector3.down * m_bounds.size.y);
+                    m_MoveIn.BeginPos = FindObjectPosition("Panel (Bottom Center)") + (Vector3.down * m_bounds.size.y * 2);
                     break;
             }
         }
@@ -78,19 +78,19 @@ public class GUIAnimator : MonoBehaviour {
                     break;
 
                 case ePosMove.UpperScreenEdge:
-                    m_MoveOut.EndPos = FindObjectPosition("Panel (Top Center)") + (Vector3.up * m_bounds.size.y);
+                    m_MoveOut.EndPos = FindObjectPosition("Panel (Top Center)") + (Vector3.up * m_bounds.size.y * 2);
                     break;
 
                 case ePosMove.LeftScreenEdge:
-                    m_MoveOut.EndPos = FindObjectPosition("Panel (Middle Left)") + (Vector3.left * m_bounds.size.x);
+                    m_MoveOut.EndPos = FindObjectPosition("Panel (Middle Left)") + (Vector3.left * m_bounds.size.x * 2);
                     break;
 
                 case ePosMove.RightScreenEdge:
-                    m_MoveOut.EndPos = FindObjectPosition("Panel (Middle Right)") + (Vector3.right * m_bounds.size.x);
+                    m_MoveOut.EndPos = FindObjectPosition("Panel (Middle Right)") + (Vector3.right * m_bounds.size.x * 2);
                     break;
 
                 case ePosMove.BottomScreenEdge:
-                    m_MoveOut.EndPos = FindObjectPosition("Panel (Bottom Center)") + (Vector3.down * m_bounds.size.y);
+                    m_MoveOut.EndPos = FindObjectPosition("Panel (Bottom Center)") + (Vector3.down * m_bounds.size.y * 2);
                     break;
             }
         }

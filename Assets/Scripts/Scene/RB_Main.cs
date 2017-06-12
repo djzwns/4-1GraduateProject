@@ -9,6 +9,8 @@ public class RB_Main : MonoBehaviour {
 
     void Awake()
     {
+        Screen.SetResolution(Screen.width, Screen.width * 9 / 16, true);
+
         BGMManager.Instance.BGMChange(0);
     }
 

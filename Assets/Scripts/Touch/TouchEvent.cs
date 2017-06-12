@@ -20,6 +20,8 @@ public class TouchEvent : Singleton<TouchEvent>
     private int m_TouchCount;
 
     public Transform m_WasteUI;
+    public float m_objectPickTime;
+    public float m_sensitivity;
 
     #region MonoBehaviourFunctions
 
@@ -28,7 +30,7 @@ public class TouchEvent : Singleton<TouchEvent>
         m_Camera = Camera.main;
         m_CamController = m_Camera.GetComponent<CameraController>();
 
-        m_timer = new Timer(0.5f);
+        m_timer = new Timer(m_objectPickTime);
     }
 
 
@@ -173,10 +175,13 @@ public class TouchEvent : Singleton<TouchEvent>
             return;
         }
 
-        if (!m_UIDrag)
-        {
-            m_CamController.Move(TouchDeltaPosition());
-        }
+        if (m_UIDrag) return;
+
+        Vector2 deltaPos = TouchDeltaPosition();
+        float posMag = deltaPos.SqrMagnitude();
+
+        if (posMag <= m_sensitivity) return;
+        m_CamController.Move(deltaPos);
     }
 
     // 터치 상태 별 동작

@@ -58,7 +58,7 @@ public class GameManager : Singleton<GameManager> {
         m_IsPlaying = true;
         m_IsPause = false;
         m_Ball.Active();
-
+        ObjectControlUI.Instance.SetObject(null);
         if (gamestart_callback != null)
         {
             gamestart_callback();
